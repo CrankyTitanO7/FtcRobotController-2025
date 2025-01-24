@@ -27,20 +27,20 @@ public class TestingOpMode extends LinearOpMode {
 
     }
 
-    void singleStickDrive() {
-        float y = -gamepad1.left_stick_y;
-        float x = gamepad1.left_stick_x;
-        float rx = gamepad1.right_stick_x;
-
-        telemetry.addData("y value", y);
-
-        double scalar = (1 - 0.5 * gamepad1.right_trigger) / Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-
-        bot.rightFrontMotor.setPower((-rx + y - x) * scalar);
-        bot.leftFrontMotor.setPower((rx + y + x) * scalar);
-        bot.rightRearMotor.setPower((-rx + y + x) * scalar);
-        bot.leftRearMotor.setPower((rx + y - x) * scalar);
-    }
+//    void singleStickDrive() {
+//        float y = -gamepad1.left_stick_y;
+//        float x = gamepad1.left_stick_x;
+//        float rx = gamepad1.right_stick_x;
+//
+//        telemetry.addData("y value", y);
+//
+//        double scalar = (1 - 0.5 * gamepad1.right_trigger) / Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+//
+//        bot.rightFrontMotor.setPower((-rx + y - x) * scalar);
+//        bot.leftFrontMotor.setPower((rx + y + x) * scalar);
+//        bot.rightRearMotor.setPower((-rx + y + x) * scalar);
+//        bot.leftRearMotor.setPower((rx + y - x) * scalar);
+//    }
 
     void dualStickDrive() {
         float leftY = -gamepad1.left_stick_y;
@@ -55,8 +55,8 @@ public class TestingOpMode extends LinearOpMode {
         float rightX = gamepad1.right_stick_x;
 
         double rightScalar = scalar / Math.max(Math.abs(rightY) + Math.abs(rightX), 1);
-        bot.leftFrontMotor.setPower((rightY - rightX) * rightScalar);
-        bot.leftRearMotor.setPower((rightY + rightX) * rightScalar);
+        bot.rightFrontMotor.setPower((rightY - rightX) * rightScalar);
+        bot.rightRearMotor.setPower((rightY + rightX) * rightScalar);
 
         telemetry.addData("left y value", leftY);
     }
