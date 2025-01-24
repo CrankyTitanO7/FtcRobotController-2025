@@ -1,12 +1,38 @@
 # 13965 log 
 
-## log 3 - date - name
+## log 3 - 1/23/25 - big jaden
+
+### things i got done
+
+- tested teleop, discussed auto plan and etc.
 
 ### to do
 
+- add servos (or at least, a quick servo function)
+- program auto (just parking for now)
+- add dual controller support in teleop
+- upload this part of the log to the engineering notebook
+- figure out the COUNTS PER MOTOR REV (go to motor vendor website
+- Measure wheel diameter in inches. this means 2x the distance from the center of the wheel to the average point of contact the wheel has with the ground. 
+- add encoder wires to drivetrain
+- maybe tone down the speed a little... she drives a little aggressive.
+- name the robot? I was thinking Birdie, because she flies across the field.
+
+
 ### what's new
 
+IT WORKED!!!
+
+today the robot moved. 
+
+Finally, I feel like I know what I'm doing. 
+
+the sample teleop testing mode worked!
+
 ### fun fact for today
+
+- when programming, plug the computer into the control hub -_____- which was really obvious in retrospect
+- also, on Macs, one must use a USB-C to USB-A adapter. Otherwise, it won't recognize on Android Studio (eg the USB-C to USB-C charging cable will not work.)
 
 ## log 2 - 1/22/25 - big jaden
 
