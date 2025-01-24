@@ -1,5 +1,20 @@
 # 13965 log 
 
+## log 5 - 1/24/25 - big jaden
+
+## did
+- counts per motor rev is 384.5 * 4 for gobilda 435s. apparently ppr is  1/4th cpr
+- 1.75 is the radius of the wheel in inches
+- added things to config
+- testing teleop and auto
+  - auto returns null pointer expression - i have no idea why
+  - teleop turns off when not r trig: inversed it see if that holds
+- the values are fine.
+- added encoder wires to drivetrain
+
+## to do
+- not much really. sort of hope and pray.
+
 ## log 4 - 1/23/25 - big jaden
 
 ### what's new and fun fact

@@ -13,6 +13,11 @@ public class twocntrl {
         // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
         double neglefty   = -leftY; // Note: pushing stick forward gives negative value
 
+        leftX = -leftX;
+
+        // inverse scalera
+        scalara = 1 - scalara;
+
         // Combine the joystick requests for each axis-motion to determine each wheel's power.
         // Set up a variable for each drive wheel to save the power level for telemetry.
         double leftFrontPower  = (neglefty + leftX + rightX) * scalara;

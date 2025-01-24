@@ -62,7 +62,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="Robot: Auto Drive By Encoder", group="big jaden")
-@Disabled
+//@Disabled
 public class autoByDistance extends BaseAutoDist {
 
 
@@ -70,10 +70,10 @@ public class autoByDistance extends BaseAutoDist {
     public void runOpMode() {
 
         // Send telemetry message to indicate successful Encoder reset
-        telemetry.addData("Starting at",  "%7d :%7d",
-                            bot.leftRearMotor.getCurrentPosition(),
-                            bot.rightRearMotor.getCurrentPosition());
-        telemetry.update();
+//        telemetry.addData("Starting at",  "%7d :%7d",
+//                            bot.leftRearMotor.getCurrentPosition(),
+//                            bot.rightRearMotor.getCurrentPosition());
+//        telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();

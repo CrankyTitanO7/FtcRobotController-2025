@@ -20,6 +20,7 @@ public class Robot {
     public final Servo claw2;
     public final DcMotor arm;
     public final Servo wrist;
+    public final Servo wrist2;
 
     //non driving motors
 //    public final DcMotor blackWheels;
@@ -54,6 +55,18 @@ public class Robot {
         rightRearMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftRearMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        rightFrontMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFrontMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightRearMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftRearMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+
         // Other motors
         linearSlide = hardwareMap.get(DcMotor.class, "ls");
         linearSlide.setDirection(DcMotor.Direction.REVERSE);
@@ -67,6 +80,7 @@ public class Robot {
         claw = hardwareMap.get(Servo.class, "cl"); // the one at top of linear slide
         claw2 = hardwareMap.get(Servo.class, "cl2"); // the one at front
         wrist = hardwareMap.get(Servo.class, "wr"); // the wrist joint at top
+        wrist2 = hardwareMap.get(Servo.class, "wr2"); // the wrist joint at front
 
 //        blackWheels = hardwareMap.dcMotor.get("black_wheels"); // expansion hub port 2
 //        blackWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
