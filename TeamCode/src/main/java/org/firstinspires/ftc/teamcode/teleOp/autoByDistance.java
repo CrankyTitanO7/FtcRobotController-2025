@@ -79,10 +79,13 @@ public class autoByDistance extends BaseAutoDist {
         waitForStart();
 
         // Step through each leg of the path,
-        // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        driveForward(47, 5);  // S1: Forward 47 Inches with 5 Sec timeout
-        spinRight(12, 4);  // S2: Turn Right 12 Inches with 4 Sec timeout
-        driveForward(-24, 4);  // S3: Reverse 24 Inches with 4 Sec timeout
+//        // Note: Reverse movement is obtained by setting a negative distance (not speed)
+//        driveForward(47, 5);  // S1: Forward 47 Inches with 5 Sec timeout
+//        spinRight(12, 4);  // S2: Turn Right 12 Inches with 4 Sec timeout
+//        driveForward(-24, 4);  // S3: Reverse 24 Inches with 4 Sec timeout
+
+        strafeLeft(4 * 12,4);
+
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

@@ -14,21 +14,8 @@ public class teleop extends LinearOpMode {
 
         Robot bot = new Robot(hardwareMap);
 
-        // Button States
-        boolean aButtonState = false;
-        // Pretend the B button started pressed so we can reset the servo position every time
-        boolean bButtonState = true;
-        boolean xButtonState = false;
-        boolean rightBumperButtonState = false;
-
-
-//        // Retrieve the IMU from the hardware map
-//        IMU imu = hardwareMap.get(IMU.class, "imu");
-//        // Adjust the orientation parameters to match the robot
-//        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-//                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
-//                RevHubOrientationOnRobot.UsbFacingDirection.UP));
-//        imu.initialize(parameters);
+        double[] drivePower = {0, 0, 0, 0};
+        double [] dosaction = {0, 0, 0, 0};
 
         waitForStart();
 
@@ -36,6 +23,24 @@ public class teleop extends LinearOpMode {
 
         while (opModeIsActive()) {
             //put code here
+
+            // player 1 does the driving, so here is the driver output
+            drivePower = twocntrl.dualcntrl(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_y, gamepad1.right_stick_x, gamepad1.right_trigger);
+            bot.leftFrontMotor.setPower(drivePower[0]);
+            bot.rightFrontMotor.setPower(drivePower[1]);
+            bot.leftRearMotor.setPower(drivePower[2]);
+            bot.rightRearMotor.setPower(drivePower[3]);
+
+            // player two operates claw, secondary claw, and arm.
+            dosaction = twocntrl.dosido(gamepad2.left_trigger, gamepad2.right_trigger, gamepad2.y, gamepad2.b, gamepad2.left_stick_x, gamepad2.right_stick_y, 0.5, 0.5, .5);
+
+            bot.linearSlide.setPower(dosaction[0]);
+            bot.claw.setPosition(dosaction[1]);
+            bot.claw2.setPosition(dosaction[2]);
+            bot.arm.setPower(dosaction[3]);
+            bot.wrist.setPosition(bot.wrist.getPosition() + dosaction[4]);
         }
+
+        telemetry.update();
     }
 }

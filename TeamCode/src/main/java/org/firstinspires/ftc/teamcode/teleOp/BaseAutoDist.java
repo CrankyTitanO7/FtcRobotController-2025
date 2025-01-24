@@ -43,6 +43,14 @@ public abstract class BaseAutoDist extends LinearOpMode {
         encoderDrive(TURN_SPEED, dist, -dist, timeout);
     }
 
+    protected void strafeLeft (double dist, double timeout) {
+        encoderDrive(DRIVE_SPEED, -dist, dist, timeout);
+    }
+
+    protected void strafeRight (double dist, double timeout) {
+        encoderDrive(DRIVE_SPEED, dist, -dist, timeout);
+    }
+
 //    protected void stopRobot() {
 //        encoderDrive(0, 0, 0, timeout);
 //    }

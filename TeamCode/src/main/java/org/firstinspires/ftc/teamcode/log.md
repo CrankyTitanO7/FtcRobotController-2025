@@ -1,5 +1,43 @@
 # 13965 log 
 
+## log 4 - 1/23/25 - big jaden
+
+### what's new and fun fact
+
+... damn, I code really well and fast at 12:09 AM.
+
+### things I got done
+- wrote teleop code for 2 drivers
+- wrote auto code (basically just park)
+  - made 2 new strafe methods and used that
+- added servos to the code. Unfortunately I have no idea if what I put is accurate or not. One can only hope.
+  -  servos and motors I added:
+    -  motor arm
+    -  arm's claw ( called claw 2) 
+    -  motor linear slide 
+    -  linear slide's claw ( called claw 1)
+    -  wrist joint at top of linear slide
+  all of this will be controlled by player 2 while player 1 drives.
+- added fake values.
+- programmed auto (just parking for now)
+
+### things I should really get done one of these days
+- test the following placeholder values:
+  -  in teleop: 
+    - val // controls linear slide speed
+    - val3  // controls theoretically speed of wrist joint
+    - armspeed // controls speed of arm
+    - the two servos: currently set to max and min. probably not desireable.
+  - in autoByDistance
+    - the estimated turn distance in spinleft and spinright and etc.
+    - figure out the COUNTS PER MOTOR REV (go to motor vendor website)
+    - Measure wheel diameter in inches. this means 2x the distance from the center of the wheel to the average point of contact the wheel has with the ground.
+
+- upload this part of the log to the engineering notebook
+- add encoder wires to drivetrain
+
+
+
 ## log 3 - 1/23/25 - big jaden
 
 ### things i got done
@@ -33,6 +71,8 @@ the sample teleop testing mode worked!
 
 - when programming, plug the computer into the control hub -_____- which was really obvious in retrospect
 - also, on Macs, one must use a USB-C to USB-A adapter. Otherwise, it won't recognize on Android Studio (eg the USB-C to USB-C charging cable will not work.)
+
+
 
 ## log 2 - 1/22/25 - big jaden
 
@@ -69,6 +109,9 @@ anyway so here's a couple of things future/current people should probably know:
 * then once the thing loads, turn on robot
 * connect phone / driver station to robot's wifi. ours is currently smth like "ROBOGOATS" / "password"
 * initialize opmode and etc.
+
+
+
 
 ## log 1 - 1/22/25 - big jaden
 
