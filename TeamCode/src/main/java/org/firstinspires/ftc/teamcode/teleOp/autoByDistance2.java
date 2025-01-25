@@ -57,7 +57,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Robot: Auto Drive By Encoder", group="big jaden")
+@Autonomous(name="auto distance right", group="big jaden")
 //@Disabled
 public class autoByDistance2 extends BaseAutoDist {
 

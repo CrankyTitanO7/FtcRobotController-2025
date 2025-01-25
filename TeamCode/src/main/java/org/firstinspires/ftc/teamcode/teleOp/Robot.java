@@ -21,6 +21,7 @@ public class Robot {
     public final DcMotor arm;
     public final Servo wrist;
     public final Servo wrist2;
+    public final Servo frontWrist;
 
     //non driving motors
 //    public final DcMotor blackWheels;
@@ -81,6 +82,7 @@ public class Robot {
         claw2 = hardwareMap.get(Servo.class, "cl2"); // the one at front
         wrist = hardwareMap.get(Servo.class, "wr"); // the wrist joint at top
         wrist2 = hardwareMap.get(Servo.class, "wr2"); // the wrist joint at front
+        frontWrist = hardwareMap.get(Servo.class, "fw"); // the wrist joint at front
 
 //        blackWheels = hardwareMap.dcMotor.get("black_wheels"); // expansion hub port 2
 //        blackWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);

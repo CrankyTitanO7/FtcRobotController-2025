@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode.teleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name="TeleOp", group="jaden the great")
-public class teleop extends LinearOpMode {
+@TeleOp(name="TeleOp2", group="jaden the great")
+public class teleop2 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -40,15 +40,23 @@ public class teleop extends LinearOpMode {
             bot.claw.setPosition(dosaction[1]);
             bot.claw2.setPosition(dosaction[2]);
             bot.arm.setPower(dosaction[3]);
-            bot.wrist.setPosition(bot.wrist.getPosition() + dosaction[4]);
-            bot.wrist2.setPosition(bot.wrist2.getPosition() + dosaction[5]);
-//            if (gamepad2.right_stick_x < .1 || gamepad2.right_stick_x > .1){
-//                bot.wrist.setPosition(dosaction[4]);
+//            bot.wrist.setPosition(bot.wrist.getPosition() + dosaction[4]);
+//            bot.wrist2.setPosition(bot.wrist2.getPosition() + dosaction[5]);
+            if (gamepad2.right_stick_x < .1 || gamepad2.right_stick_x > .1){
+                bot.wrist.setPosition(dosaction[4]);
 //                bot.wrist2.setPosition(dosaction[5]);
-//            } else {
-//                bot.wrist.setPosition(0);
+            } else {
+                bot.wrist.setPosition(-bot.wrist.getPosition());
 //                bot.wrist2.setPosition(0);
-//            }
+            }
+
+            if (gamepad2.right_stick_y < .1 || gamepad2.right_stick_y > .1){
+                bot.wrist2.setPosition(dosaction[4]);
+//                bot.wrist2.setPosition(dosaction[5]);
+            } else {
+                bot.wrist2.setPosition(-bot.wrist2.getPosition());
+//                bot.wrist2.setPosition(0);
+            }
 
             bot.frontWrist.setPosition(bot.frontWrist.getPosition() + dosaction[6]);
 

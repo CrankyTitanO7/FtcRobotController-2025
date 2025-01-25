@@ -11,12 +11,12 @@ public class twocntrl {
         double max;
 
         // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-        double neglefty   = -leftY; // Note: pushing stick forward gives negative value
+        double neglefty   = leftY; // Note: pushing stick forward gives negative value
 
         leftX = -leftX;
 
         // inverse scalera
-        scalara = 1 - scalara;
+        scalara = 1 - (.1) * scalara;
 
         // Combine the joystick requests for each axis-motion to determine each wheel's power.
         // Set up a variable for each drive wheel to save the power level for telemetry.
@@ -43,30 +43,44 @@ public class twocntrl {
 //        telemetry.addData("left y value", leftY);
     }
 
-    public static double[] dosido (double ltrig, double rtrig, boolean y, boolean b, double leftx, double righty, double val, double val3, double armspeed) {
+    public static double[] dosido (double ltrig, double rtrig, boolean y, boolean b, double leftx, double righty, double val, double val3, double armspeed, double rightx, double lefty) {
         double lpow = ltrig * val;
         double rpow = rtrig * val;
 
         double lspow = rpow - lpow;
 
-        double clwpos = 0;
+        double clwpos = .1;
 
         if (y) {
-            clwpos = 1;
+            clwpos = .25;
         }
 
-        double clw2pos = 0;
+        double clw2pos = .25;
 
         if (b) {
-            clw2pos = 1;
+            clw2pos = .5;
         }
 
-        double armspd = leftx * armspeed;
+        double armspd;
+
+        if (leftx > .1) {
+            armspd = armspeed;
+        } else if (leftx < -.1) {
+            armspd = -armspeed;
+        } else {
+            armspd = 0;
+        }
+
+
 
         double deltwrist = righty * val3;
+        double deltwrist2 = -rightx * .1;
+        double frontdeltwrist = lefty * .1;
 
-        double[] returnable = {lspow, clwpos, clw2pos, armspd, deltwrist};
+        double[] returnable = {lspow, clwpos, clw2pos, armspd, deltwrist, deltwrist2, frontdeltwrist};
 
         return returnable;
     }
+
+
 }
