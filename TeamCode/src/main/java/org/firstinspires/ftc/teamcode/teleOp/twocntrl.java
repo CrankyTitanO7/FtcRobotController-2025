@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.teleOp;
 
 public class twocntrl {
-    public static double[] dualcntrl(double leftY, double leftX, double rightY, double rightX, double scalara) {
+    public static double[] dualcntrl(double leftY, double leftX, double rightY, double rightX, double scalara, double sens) {
 
 //        double scalar = 1 - 0.5 * scalara;
 //
@@ -20,10 +20,10 @@ public class twocntrl {
 
         // Combine the joystick requests for each axis-motion to determine each wheel's power.
         // Set up a variable for each drive wheel to save the power level for telemetry.
-        double leftFrontPower  = (neglefty + leftX + rightX) * scalara;
-        double rightFrontPower = (neglefty - leftX - rightX) * scalara;
-        double leftBackPower   = (neglefty - leftX + rightX) * scalara;
-        double rightBackPower  = (neglefty + leftX - rightX) * scalara;
+        double leftFrontPower  = (neglefty + leftX + rightX) * scalara * sens;
+        double rightFrontPower = (neglefty - leftX - rightX) * scalara * sens;
+        double leftBackPower   = (neglefty - leftX + rightX) * scalara * sens;
+        double rightBackPower  = (neglefty + leftX - rightX) * scalara * sens;
 
         max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
         max = Math.max(max, Math.abs(leftBackPower));
@@ -49,10 +49,10 @@ public class twocntrl {
 
         double lspow = rpow - lpow;
 
-        double clwpos = .1;
+        double clwpos = .25;
 
         if (y) {
-            clwpos = .25;
+            clwpos = .1;
         }
 
         double clw2pos = .25;
@@ -61,21 +61,21 @@ public class twocntrl {
             clw2pos = .5;
         }
 
-        double armspd;
+        double armspd = leftx * armspeed;
 
-        if (leftx > .1) {
-            armspd = armspeed;
-        } else if (leftx < -.1) {
-            armspd = -armspeed;
-        } else {
-            armspd = 0;
-        }
+//        if (leftx > .1) {
+//            armspd = armspeed;
+//        } else if (leftx < -.1) {
+//            armspd = -armspeed;
+//        } else {
+//            armspd = 0;
+//        }
 
 
 
-        double deltwrist = righty * val3;
-        double deltwrist2 = -rightx * .1;
-        double frontdeltwrist = lefty * .1;
+        double deltwrist = -righty * .3;
+        double deltwrist2 = rightx * .3;
+        double frontdeltwrist = lefty * .3;
 
         double[] returnable = {lspow, clwpos, clw2pos, armspd, deltwrist, deltwrist2, frontdeltwrist};
 

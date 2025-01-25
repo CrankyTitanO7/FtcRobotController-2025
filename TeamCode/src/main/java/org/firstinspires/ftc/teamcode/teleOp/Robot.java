@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.teleOp;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -19,9 +20,9 @@ public class Robot {
     public final Servo claw;
     public final Servo claw2;
     public final DcMotor arm;
-    public final Servo wrist;
-    public final Servo wrist2;
-    public final Servo frontWrist;
+    public final CRServo wrist;
+    public final CRServo wrist2;
+    public final CRServo frontWrist;
 
     //non driving motors
 //    public final DcMotor blackWheels;
@@ -80,9 +81,9 @@ public class Robot {
         // servos
         claw = hardwareMap.get(Servo.class, "cl"); // the one at top of linear slide
         claw2 = hardwareMap.get(Servo.class, "cl2"); // the one at front
-        wrist = hardwareMap.get(Servo.class, "wr"); // the wrist joint at top
-        wrist2 = hardwareMap.get(Servo.class, "wr2"); // the wrist joint at front
-        frontWrist = hardwareMap.get(Servo.class, "fw"); // the wrist joint at front
+        wrist = hardwareMap.get(CRServo.class, "wr"); // the wrist joint at top
+        wrist2 = hardwareMap.get(CRServo.class, "wr2"); // the wrist joint at front
+        frontWrist = hardwareMap.get(CRServo.class, "fw"); // the wrist joint at front
 
 //        blackWheels = hardwareMap.dcMotor.get("black_wheels"); // expansion hub port 2
 //        blackWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
