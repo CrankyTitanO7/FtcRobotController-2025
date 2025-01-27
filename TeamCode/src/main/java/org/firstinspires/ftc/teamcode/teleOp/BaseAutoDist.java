@@ -56,6 +56,73 @@ public abstract class BaseAutoDist extends LinearOpMode {
 //        encoderDrive(0, 0, 0, timeout);
 //    }
 
+    protected void funnyStrafeLeft(double dist, double timeout) {
+        encoderDrive(DRIVE_SPEED, -dist, dist, timeout);
+    }
+
+    protected void funnyStrafeRight(double dist, double timeout) {
+        encoderDrive(DRIVE_SPEED, dist, -dist, timeout);
+    }
+
+
+    public void funnyStrafe(double speed,
+                            double leftInches, double rightInches,
+                            double timeoutS) {
+        int newLeftTarget;
+        int newRightTarget;
+
+        // Ensure that the OpMode is still active
+        if (opModeIsActive()) {
+            // Determine new target position, and pass to motor controller
+            newLeftTarget = bot.leftFrontMotor.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
+            newRightTarget = bot.rightFrontMotor.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
+            bot.leftFrontMotor.setTargetPosition(newLeftTarget);
+            bot.rightFrontMotor.setTargetPosition(newRightTarget);
+
+            // Turn On RUN_TO_POSITION
+            bot.rightFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            bot.rightRearMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+            bot.leftRearMotor.setPower(Math.abs(speed));
+            bot.rightRearMotor.setPower(Math.abs(speed));
+            bot.leftFrontMotor.setPower(Math.abs(speed));
+            bot.rightFrontMotor.setPower(Math.abs(speed));
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (bot.leftFrontMotor.isBusy() && bot.rightFrontMotor.isBusy())) {
+
+                // Display it for the driver.
+                telemetry.addData("Running to", " %7d :%7d", newLeftTarget, newRightTarget);
+                telemetry.addData("Currently at", " at %7d :%7d",
+                        bot.leftFrontMotor.getCurrentPosition(), bot.rightFrontMotor.getCurrentPosition());
+                telemetry.update();
+            }
+
+            // Stop all motion;
+            bot.leftRearMotor.setPower(0);
+            bot.leftFrontMotor.setPower(0);
+            bot.rightRearMotor.setPower(0);
+            bot.rightFrontMotor.setPower(0);
+
+            // Turn off RUN_TO_POSITION
+            bot.leftRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.leftFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.rightRearMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.rightFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            sleep(250);   // optional pause after each move.
+        }
+    }
+
     public void encoderDrive(double speed,
                              double leftInches, double rightInches,
                              double timeoutS) {
