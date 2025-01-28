@@ -1,4 +1,16 @@
-# 13965 log 
+# 13965 log
+
+## log 6 - 1/28/25 - big jaden
+
+## did 
+
+- make an angle calc function move to an angle
+
+## need to do
+
+- reset encoders to where I want them
+- replace PPR with the core hex motor PPR
+- remove unnecessary encoder wires
 
 ## log 5 - 1/24/25 - big jaden
 
