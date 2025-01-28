@@ -33,7 +33,7 @@ public class teleop2 extends LinearOpMode {
             }
 
             // player 1 does the driving, so here is the driver output
-            drivePower = twocntrl.dualcntrl(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_y, -gamepad1.right_stick_x, gamepad1.right_trigger, .5);
+            drivePower = twocntrl.dualcntrl(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_y, -gamepad1.right_stick_x, gamepad1.right_trigger, .25);
             bot.leftFrontMotor.setPower(drivePower[0]);
             bot.rightFrontMotor.setPower(drivePower[1]);
             bot.leftRearMotor.setPower(drivePower[2]);

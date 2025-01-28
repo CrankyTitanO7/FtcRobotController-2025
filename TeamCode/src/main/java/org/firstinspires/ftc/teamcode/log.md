@@ -12,7 +12,35 @@
 - replace PPR with the core hex motor PPR
 - remove unnecessary encoder wires
 
-## log 5 - 1/24/25 - big jaden
+## log 7 - 1/26/25 - JADEN
+
+### important debug side note: LEFT IS REFERENCED FIRST
+
+### to do
+- program automatic cycling system
+- test auto
+- program controller rumble
+- and need to add encoder wire to arm at front
+
+### just now I did
+- make a funny auto, which only uses the front 2 encoders 
+  - (even though its only strafing, if we want to turn later (highly unlikely) we can). 
+- Should improve efficiency, 
+- and also back left encoder just aint working. 
+- time to see how far this encoder null pointer exception error keeps coming from
+
+### stuff i did
+
+- did a bunch at competition. 
+  -  adjusted sensitivity -_______- apparently our robot is too sensitive.
+  - added servos
+  - inverted some controls
+  - switched some servos from 
+
+## log 6 - 1/24/25 - JADEN
+- damn, i've been outvoted. the robot's name is Joshua? I think?
+
+## log 5 - 1/24/25 - JADEN
 
 ## did
 - counts per motor rev is 384.5 * 4 for gobilda 435s. apparently ppr is  1/4th cpr
@@ -27,7 +55,7 @@
 ## to do
 - not much really. sort of hope and pray.
 
-## log 4 - 1/23/25 - big jaden
+## log 4 - 1/23/25 - JADEN
 
 ### what's new and fun fact
 
@@ -65,7 +93,7 @@
 
 
 
-## log 3 - 1/23/25 - big jaden
+## log 3 - 1/23/25 - JADEN 
 
 ### things i got done
 
@@ -101,7 +129,7 @@ the sample teleop testing mode worked!
 
 
 
-## log 2 - 1/22/25 - big jaden
+## log 2 - 1/22/25 - JADEN
 
 ### to do
  - upload this log to github
@@ -140,7 +168,7 @@ anyway so here's a couple of things future/current people should probably know:
 
 
 
-## log 1 - 1/22/25 - big jaden
+## log 1 - 1/22/25 - JADEN
 
 well hello. I'm jaden. I am a coder on team 13965.
 
