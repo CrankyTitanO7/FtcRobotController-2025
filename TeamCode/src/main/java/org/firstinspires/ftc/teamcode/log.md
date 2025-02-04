@@ -1,5 +1,23 @@
 # 13965 log
 
+## log 7 - 2/4/25 - big jaden
+
+## did
+- over the last week or so I have been working on a prototype block detection system using 3 color sensors. 
+- ### the tricolor angle sensor basically says:
+  - if there are two color sensors about an axis of rotation,
+  - I can iterate through every angle
+  - and get the angle close enough such that the claw can grab it, reasonably
+
+## changes
+- i might use distance, not colors
+- removed one color sensor cause it doesn't work
+- got some initial values. I forgor what those are :( I'll record it soon though :)
+
+## need to do
+- get those values (colors AND distance)
+- test if the servo iterate function works
+
 ## log 6 - 1/28/25 - big jaden
 
 ## did 
