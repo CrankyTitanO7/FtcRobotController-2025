@@ -63,7 +63,7 @@ public class colorSensorTest extends LinearOpMode {
   ColorSensor cs2;
 //  ColorSensor cs3;
   Servo servo;
-  boolean dir = true;
+  boolean dir = false;
 
 
   @Override
@@ -108,7 +108,6 @@ public class colorSensorTest extends LinearOpMode {
 
       // check the status of the x button on either gamepad.
       bCurrState = gamepad1.x;
-      servo.setPosition(-1);
 
       // check for button state transitions.
       if (bCurrState && (bCurrState != bPrevState))  {
@@ -136,9 +135,17 @@ public class colorSensorTest extends LinearOpMode {
         telemetry.addData("Distance (cm)", "%.3f", ((DistanceSensor) cs1).getDistance(DistanceUnit.CM));
       }
 
-      dir = checkDir((float)servo.getPosition(), dir);
+      float posit = (float)servo.getPosition();
 
-      double colorpos = check(servo, cs1, cs2, (float)100000000, (float)servo.getPosition(), dir);
+      if (posit < .1) {
+        dir = false;
+      } else if (posit > .9) {
+        dir = true;
+      }
+
+      telemetry.addData("dir", dir);
+
+      double colorpos = check(cs1, cs2, (float)100000000, (float)servo.getPosition(), dir);
       servo.setPosition(colorpos);
 
       // change the background color to match the color detected by the RGB sensor.
@@ -164,30 +171,21 @@ public class colorSensorTest extends LinearOpMode {
 
   }
 
-  public double check(Servo servo, ColorSensor cs1, ColorSensor cs2, float min, float pos, boolean dir) {
+  public double check(ColorSensor cs1, ColorSensor cs2, float min, float pos, boolean dir) {
     boolean scanning = true;
 
     if (scanning) {
       if (dir) {
-        pos += .01;
+        pos = 0;
       } else {
-        pos -= .01;
+        pos = 1;
       }
 
-      servo.setPosition(pos);
       telemetry.addData("pos", servo.getPosition());
+      telemetry.addData("dest", pos);
       telemetry.update();
     }
     return pos;
-  }
-
-  public boolean checkDir(float pos, boolean dir){
-    if (pos < .1) {
-      dir = false;
-    } else if (pos > .9) {
-      dir = true;
-    }
-    return dir;
   }
 
 }
