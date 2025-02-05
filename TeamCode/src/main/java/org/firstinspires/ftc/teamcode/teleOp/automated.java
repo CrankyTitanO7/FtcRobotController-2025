@@ -6,30 +6,42 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public abstract class automated extends LinearOpMode {
+public class automated{
 
-    static final double     PPR                     = 384.5; // replace with core hex motor
-    static final double     COUNTS_PER_MOTOR_REV    = PPR * 4;
-    static final double     COUNTS_PER_RAD         = (COUNTS_PER_MOTOR_REV) / (Math.PI);
+    static final double     COUNTS_PER_MOTOR_REV    = 288; // correct
+    static final double     COUNTS_PER_RAD         = (COUNTS_PER_MOTOR_REV) / ( 2 * (Math.PI));
 
 
     public static void dosidosido (Robot bot, Gamepad gamepad2) {
-        DcMotor ls = bot.linearSlide;
-        DcMotor arm = bot.arm;
-
-        // servos
-        Servo claw = bot.claw;
-        Servo claw2 = bot.claw2;
-        CRServo wrist = bot.wrist;
-        CRServo wrist2 = bot.wrist2;
-        CRServo frontWrist = bot.frontWrist;
-
         if (gamepad2.right_bumper) {
-
+            auto1(bot);
+            auto2(bot);
         }
     }
 
-    public void move_to_angle (DcMotor motor, double angle, double speed, long timeout, boolean reset) {
+
+
+    public static void auto1 (Robot bot){
+        DcMotor arm = bot.arm;
+        CRServo frontWrist = bot.frontWrist;
+        Servo claw2 = bot.claw2;
+
+
+    }
+
+    public static void auto2 (Robot bot) {
+        DcMotor ls = bot.linearSlide;
+        // servos
+        Servo claw = bot.claw;
+        CRServo wrist = bot.wrist;
+        CRServo wrist2 = bot.wrist2;
+    }
+
+    public static void servo_scan () {
+
+    }
+
+    public static void move_to_angle (DcMotor motor, double angle, double speed, boolean reset) {
         angle = Math.toRadians(angle);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setTargetPosition((int) (angle * COUNTS_PER_RAD));
@@ -41,6 +53,7 @@ public abstract class automated extends LinearOpMode {
             // telemetry.update();
         }
         motor.setPower(0);
+
 
         if (reset) {
             angle = -angle;

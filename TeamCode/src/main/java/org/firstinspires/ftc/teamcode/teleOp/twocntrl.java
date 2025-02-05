@@ -1,12 +1,19 @@
 package org.firstinspires.ftc.teamcode.teleOp;
 
+import com.qualcomm.robotcore.hardware.Gamepad;
+
 public class twocntrl {
-    public static double[] dualcntrl(double leftY, double leftX, double rightY, double rightX, double scalara, double sens) {
+    public static double[] dualcntrl(Gamepad gamepad, double sens) {
 
 //        double scalar = 1 - 0.5 * scalara;
 //
 //        double leftScalar = scalar / Math.max(Math.abs(leftY) + Math.abs(leftX), 1);
 //        double rightScalar = scalar / Math.max(Math.abs(rightY) + Math.abs(rightX), 1);
+
+        double leftY = gamepad.left_stick_y;
+        double leftX = gamepad.left_stick_x;
+        double rightX = -gamepad.right_stick_x;
+        double scalara = gamepad.right_trigger;
 
         double max;
 
