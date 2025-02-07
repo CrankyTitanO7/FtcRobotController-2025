@@ -13,8 +13,8 @@ public abstract class manual extends LinearOpMode {
         boolean clawOpen = false;
         boolean clawOpen2 = false;
         double armspeed;
-        if(gamepad2.right_bumper)
 
+        if(gamepad2.right_bumper)
         {
             armspeed = 1;
         } else

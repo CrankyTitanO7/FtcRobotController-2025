@@ -24,6 +24,7 @@ public class Robot {
     public final Servo wrist2;
     public final DcMotor elbow;
     public final Servo frontWrist;
+    public final Servo frontWristRoll;
 
     public final ColorSensor cs1;
     public final ColorSensor cs2;
@@ -92,6 +93,7 @@ public class Robot {
         wrist = hardwareMap.get(Servo.class, "wr"); // the wrist joint at top that goes up and down (pitch)
         wrist2 = hardwareMap.get(Servo.class, "wr2"); // the wrist joint at top that goes all around (roll)
         frontWrist = hardwareMap.get(Servo.class, "fw"); // the wrist joint at front
+        frontWristRoll = hardwareMap.get(Servo.class, "fw2"); // the wrist joint at front
 
         // sensors
         cs1 = hardwareMap.get(ColorSensor.class, "cs1");

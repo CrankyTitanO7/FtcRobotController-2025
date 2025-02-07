@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.teleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name="TeleOp - auto + manual", group="jaden the great")
+@TeleOp(name="TeleOp3 - auto + manual", group="jaden the great")
 
 public class teleop3 extends automated {
     @Override
@@ -25,7 +25,6 @@ public class teleop3 extends automated {
         motor_move_to_angle(bot.arm, 180, .5,  false);
         motor_move_to_angle(bot.elbow, 180, .5,  false);
         motor_move_to_angle(bot.linearSlide, 0, .5,  false);
-
 
         while (opModeIsActive()) {
             //put code here

@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.teleOp;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.linearOpMode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -21,19 +20,19 @@ public abstract class automated extends manual {
     static final double     COUNTS_PER_INCH             = (COUNTS_PER_MOTOR_REV) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
 
-    static final double     tierOneHeight               = 12;   // tier height in inches
-    static final double     tierTwoHeight               = 18;   // tier height in inches
-    static final double     tierThreeHeight             = 24;   // tier height in inches
+    static final double     tierOneHeight               = ;   // short bucket height in inches
+    static final double     tierTwoHeight               = ;   // medium bucket height in inches
+    static final double     tierThreeHeight             = ;   // tall bucket height in inches
 
-    static final double     red_lim                     = 1.0;  // color limits
-    static final double     blue_lim                    = 1.0;  // color limits
-    static final double     green_lim                   = 1.0;  // color limits
-    static final double     ground_dist                 = 6;    // ground distance
+    static final double     red_lim                     = ;  // color limits
+    static final double     blue_lim                    = ;  // color limits
+    static final double     green_lim                   = ;  // color limits
+    static final double     ground_dist                 = ;    // ground distance
 
-//    double minPosition = 0.0;  // Minimum position
-//    double maxPosition = 1.0;  // Maximum position
-//    double step = 0.05;        // Step size for movement
-//    long delay = 100;          // Delay in milliseconds between movements
+    double                  minPosition                 = 0.0;  // Minimum position
+    double                  maxPosition                 = 1.0;  // Maximum position
+    double                  step                        = 0.05;        // Step size for movement
+    long                    delay                       = 100;          // Delay in milliseconds between movements
 
 
     public void dosidosido (Robot bot, Gamepad gamepad2) {
@@ -51,17 +50,20 @@ public abstract class automated extends manual {
         DcMotor arm = bot.arm;
 
         Servo frontWrist = bot.frontWrist;
+        Servo frontWristRoll = bot.frontWristRoll;
 
         Servo claw2 = bot.claw2;
 
         ColorSensor cs1 = bot.cs1;
         ColorSensor cs2 = bot.cs2;
 
-        servo_scan(red_lim, blue_lim, green_lim, ground_dist, true, frontWrist, cs1, cs2, gamepad);
+        servo_scan(red_lim, blue_lim, green_lim, ground_dist, true, frontWristRoll, cs1, cs2, gamepad);
 
         claw2.setPosition(0);
+        frontWrist.setPosition(0);
         motor_move_to_angle(arm, 120, .5, false);
         frontWrist.setPosition();
+        frontWristRoll.setPosition();
     }
 
     public void auto2 (Robot bot, Gamepad gamepad) {
@@ -126,22 +128,22 @@ public abstract class automated extends manual {
 
     }
 
-//    public void servo (Servo servo) {
-//
-//        for (double pos = minPosition; pos <= maxPosition; pos += step) {
-//            servo.setPosition(pos);
-//            sleep(delay);
-//        }
-//
-//        // Move servo from max to min
-//        for (double pos = maxPosition; pos >= minPosition; pos -= step) {
-//            servo.setPosition(pos);
-//            sleep(delay);
-//        }
-//    }
-}
+    public void servo (Servo servo) {
 
-public static void servo_scan (double rlim, double blim, double glim, double dist, boolean distmode, CRServo servo, ColorSensor cs1, ColorSensor cs2, Gamepad gamepad) {
+        for (double pos = minPosition; pos <= maxPosition; pos += step) {
+            servo.setPosition(pos);
+            sleep(delay);
+        }
+
+        // Move servo from max to min
+        for (double pos = maxPosition; pos >= minPosition; pos -= step) {
+            servo.setPosition(pos);
+            sleep(delay);
+        }
+    }
+
+
+public void servo_scan (double rlim, double blim, double glim, double dist, boolean distmode, Servo servo, ColorSensor cs1, ColorSensor cs2, Gamepad gamepad) {
 
     if (distmode) {
         double dist1 = -1;
@@ -151,8 +153,9 @@ public static void servo_scan (double rlim, double blim, double glim, double dis
             dist1 = ((DistanceSensor) cs1).getDistance(DistanceUnit.CM);
         }
         if (cs2 instanceof DistanceSensor) {
-            dist2 = ((DistanceSensor) cs1).getDistance(DistanceUnit.CM);
+            dist2 = ((DistanceSensor) cs2).getDistance(DistanceUnit.CM);
         }
+
 
         while (dist1 <= dist && dist2 <= dist){
             servo(servo);
@@ -167,28 +170,27 @@ public static void servo_scan (double rlim, double blim, double glim, double dis
 
     } else {
         double tolerance = 10;
-        while (cs1.red() != rlim && cs1.blue() != blim && cs1.green() != glim) {
 
-            double rLower = rlim - tolerance;
-            double rUpper = rlim + tolerance;
-            double bLower = blim - tolerance;
-            double bUpper = blim + tolerance;
-            double gLower = glim - tolerance;
-            double gUpper = glim + tolerance;
+        double rLower = rlim - tolerance;
+        double rUpper = rlim + tolerance;
+        double bLower = blim - tolerance;
+        double bUpper = blim + tolerance;
+        double gLower = glim - tolerance;
+        double gUpper = glim + tolerance;
 
-            // Modify the while loop condition
-            while (!(cs1.red() >= rLower && cs1.red() <= rUpper) &&
-                    !(cs1.blue() >= bLower && cs1.blue() <= bUpper) &&
-                    !(cs1.green() >= gLower && cs1.green() <= gUpper)) {
+        // Modify the while loop condition
+        while (!(cs1.red() >= rLower && cs1.red() <= rUpper) &&
+                !(cs1.blue() >= bLower && cs1.blue() <= bUpper) &&
+                !(cs1.green() >= gLower && cs1.green() <= gUpper)) {
 
-                servo(servo);
+            servo(servo);
 
-                if (gamepad.right_bumper) {
-                    for (int i = 0; i < 3; i++) {gamepad.rumble(1000);}
-                    break;
-                }
+            if (gamepad.right_bumper) {
+                for (int i = 0; i < 3; i++) {gamepad.rumble(1000);}
+                break;
             }
         }
+
     }
 
 
