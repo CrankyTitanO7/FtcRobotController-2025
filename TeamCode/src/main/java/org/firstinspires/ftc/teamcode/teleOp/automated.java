@@ -30,7 +30,10 @@ public abstract class automated extends manual{
     static final double     green_lim                   = 1.0;  // color limits
     static final double     ground_dist                 = 6;    // ground distance
 
-
+    double minPosition = 0.0;  // Minimum position
+    double maxPosition = 1.0;  // Maximum position
+    double step = 0.05;        // Step size for movement
+    long delay = 100;          // Delay in milliseconds between movements
 
 
     public void dosidosido (Robot bot, Gamepad gamepad2) {
@@ -123,8 +126,19 @@ public abstract class automated extends manual{
 
     }
 
-    public static void servo (CRServo servo) {
+    public void servo (Servo servo) {
 
+        for (double pos = minPosition; pos <= maxPosition; pos += step) {
+            servo.setPosition(pos);
+            sleep(delay);
+        }
+
+        // Move servo from max to min
+        for (double pos = maxPosition; pos >= minPosition; pos -= step) {
+            servo.setPosition(pos);
+            sleep(delay);
+        }
+    }
     }
 
     public static void servo_scan (double rlim, double blim, double glim, double dist, boolean distmode, CRServo servo, ColorSensor cs1, ColorSensor cs2, Gamepad gamepad) {
