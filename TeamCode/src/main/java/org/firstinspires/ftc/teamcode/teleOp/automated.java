@@ -34,6 +34,9 @@ public abstract class automated extends manual {
     double                  step                        = 0.05;        // Step size for movement
     long                    delay                       = 100;          // Delay in milliseconds between movements
 
+    double pos = minPosition;
+    boolean servo_move = true;
+
 
     public void dosidosido (Robot bot, Gamepad gamepad2) {
         if (gamepad2.right_bumper) {
@@ -130,15 +133,23 @@ public abstract class automated extends manual {
 
     public void servo (Servo servo) {
 
-        for (double pos = minPosition; pos <= maxPosition; pos += step) {
-            servo.setPosition(pos);
-            sleep(delay);
+        servo.setPosition(pos); // move to pos
+        sleep(delay);
+
+
+        // alternate between scanning left or right
+
+        if (servo_move) {
+            pos += step;
+        } else {
+            pos -= step;
         }
 
-        // Move servo from max to min
-        for (double pos = maxPosition; pos >= minPosition; pos -= step) {
-            servo.setPosition(pos);
-            sleep(delay);
+
+        // if the servo reaches a max or a min, turn around
+
+        if (pos >= maxPosition || pos <= minPosition) {
+            servo_move = !servo_move;
         }
     }
 
