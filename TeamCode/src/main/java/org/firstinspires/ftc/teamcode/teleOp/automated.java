@@ -75,6 +75,7 @@ public abstract class automated extends manual {
         DcMotor ls = bot.linearSlide;
         // servos
         Servo claw = bot.claw;
+        Servo claw2 = bot.claw2;
         Servo wrist = bot.wrist;
         Servo wrist2 = bot.wrist2;
         DcMotor elbow = bot.elbow;
@@ -87,6 +88,7 @@ public abstract class automated extends manual {
         motor_move_to_angle(elbow, 330, .5, false);
 
         claw.setPosition(0); // close claw
+        claw2.setPosition(1); // open front claw
 
         if (gamepad.a){
             claw.setPosition(1); // open claw (emergency)
