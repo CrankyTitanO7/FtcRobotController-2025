@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-public abstract class automated extends manual{
+public abstract class automated extends manual {
 
     static final double     COUNTS_PER_MOTOR_REV        = 288; // correct
     static final double     COUNTS_PER_RAD              = (COUNTS_PER_MOTOR_REV) / ( 2 * (Math.PI));
@@ -30,10 +30,10 @@ public abstract class automated extends manual{
     static final double     green_lim                   = 1.0;  // color limits
     static final double     ground_dist                 = 6;    // ground distance
 
-    double minPosition = 0.0;  // Minimum position
-    double maxPosition = 1.0;  // Maximum position
-    double step = 0.05;        // Step size for movement
-    long delay = 100;          // Delay in milliseconds between movements
+//    double minPosition = 0.0;  // Minimum position
+//    double maxPosition = 1.0;  // Maximum position
+//    double step = 0.05;        // Step size for movement
+//    long delay = 100;          // Delay in milliseconds between movements
 
 
     public void dosidosido (Robot bot, Gamepad gamepad2) {
@@ -126,112 +126,112 @@ public abstract class automated extends manual{
 
     }
 
-    public void servo (Servo servo) {
+//    public void servo (Servo servo) {
+//
+//        for (double pos = minPosition; pos <= maxPosition; pos += step) {
+//            servo.setPosition(pos);
+//            sleep(delay);
+//        }
+//
+//        // Move servo from max to min
+//        for (double pos = maxPosition; pos >= minPosition; pos -= step) {
+//            servo.setPosition(pos);
+//            sleep(delay);
+//        }
+//    }
+}
 
-        for (double pos = minPosition; pos <= maxPosition; pos += step) {
-            servo.setPosition(pos);
-            sleep(delay);
+public static void servo_scan (double rlim, double blim, double glim, double dist, boolean distmode, CRServo servo, ColorSensor cs1, ColorSensor cs2, Gamepad gamepad) {
+
+    if (distmode) {
+        double dist1 = -1;
+        double dist2 = -1;
+
+        if (cs1 instanceof DistanceSensor) {
+            dist1 = ((DistanceSensor) cs1).getDistance(DistanceUnit.CM);
+        }
+        if (cs2 instanceof DistanceSensor) {
+            dist2 = ((DistanceSensor) cs1).getDistance(DistanceUnit.CM);
         }
 
-        // Move servo from max to min
-        for (double pos = maxPosition; pos >= minPosition; pos -= step) {
-            servo.setPosition(pos);
-            sleep(delay);
+        while (dist1 <= dist && dist2 <= dist){
+            servo(servo);
+            if (dist1 == -1 || dist2 == -1){
+                break; // in the case that the distance sensors do not initialize or work, the loop breaketh
+            }
+            if (gamepad.right_bumper){
+                for (int i = 0; i < 3; i++) {gamepad.rumble(1000);}
+                break; // in the case that the distance sensors do not initialize or work, the loop breaketh
+            }
         }
-    }
-    }
 
-    public static void servo_scan (double rlim, double blim, double glim, double dist, boolean distmode, CRServo servo, ColorSensor cs1, ColorSensor cs2, Gamepad gamepad) {
+    } else {
+        double tolerance = 10;
+        while (cs1.red() != rlim && cs1.blue() != blim && cs1.green() != glim) {
 
-        if (distmode) {
-            double dist1 = -1;
-            double dist2 = -1;
+            double rLower = rlim - tolerance;
+            double rUpper = rlim + tolerance;
+            double bLower = blim - tolerance;
+            double bUpper = blim + tolerance;
+            double gLower = glim - tolerance;
+            double gUpper = glim + tolerance;
 
-            if (cs1 instanceof DistanceSensor) {
-                dist1 = ((DistanceSensor) cs1).getDistance(DistanceUnit.CM);
-            }
-            if (cs2 instanceof DistanceSensor) {
-                dist2 = ((DistanceSensor) cs1).getDistance(DistanceUnit.CM);
-            }
+            // Modify the while loop condition
+            while (!(cs1.red() >= rLower && cs1.red() <= rUpper) &&
+                    !(cs1.blue() >= bLower && cs1.blue() <= bUpper) &&
+                    !(cs1.green() >= gLower && cs1.green() <= gUpper)) {
 
-            while (dist1 <= dist && dist2 <= dist){
                 servo(servo);
-                if (dist1 == -1 || dist2 == -1){
-                    break; // in the case that the distance sensors do not initialize or work, the loop breaketh
-                }
-                if (gamepad.right_bumper){
+
+                if (gamepad.right_bumper) {
                     for (int i = 0; i < 3; i++) {gamepad.rumble(1000);}
-                    break; // in the case that the distance sensors do not initialize or work, the loop breaketh
-                }
-            }
-
-        } else {
-            double tolerance = 10;
-            while (cs1.red() != rlim && cs1.blue() != blim && cs1.green() != glim) {
-
-                double rLower = rlim - tolerance;
-                double rUpper = rlim + tolerance;
-                double bLower = blim - tolerance;
-                double bUpper = blim + tolerance;
-                double gLower = glim - tolerance;
-                double gUpper = glim + tolerance;
-
-                // Modify the while loop condition
-                while (!(cs1.red() >= rLower && cs1.red() <= rUpper) &&
-                        !(cs1.blue() >= bLower && cs1.blue() <= bUpper) &&
-                        !(cs1.green() >= gLower && cs1.green() <= gUpper)) {
-
-                    servo(servo);
-
-                    if (gamepad.right_bumper) {
-                        for (int i = 0; i < 3; i++) {gamepad.rumble(1000);}
-                        break;
-                    }
+                    break;
                 }
             }
         }
-
-
     }
 
-    public static void ls_move_dist (DcMotor ls, double dist, double speed) {
-        ls.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        ls.setTargetPosition((int) Math.round(dist));
-        ls.setPower(speed);
-        while (ls.isBusy()) { // Wait for the motor to reach the target
-            // You can add telemetry here to monitor progress if needed
-            // For example:
-            // telemetry.addData("Motor Position", ls.getCurrentPosition());
-            // telemetry.update();
-        }
-        ls.setPower(0); // Stop the motor
+
+}
+
+public static void ls_move_dist (DcMotor ls, double dist, double speed) {
+    ls.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    ls.setTargetPosition((int) Math.round(dist));
+    ls.setPower(speed);
+    while (ls.isBusy()) { // Wait for the motor to reach the target
+        // You can add telemetry here to monitor progress if needed
+        // For example:
+        // telemetry.addData("Motor Position", ls.getCurrentPosition());
+        // telemetry.update();
     }
-    public static void motor_move_to_angle (DcMotor motor, double angle, double speed, boolean reset) {
-        angle = Math.toRadians(angle);
-        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    ls.setPower(0); // Stop the motor
+}
+public static void motor_move_to_angle (DcMotor motor, double angle, double speed, boolean reset) {
+    angle = Math.toRadians(angle);
+    motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    motor.setTargetPosition((int) (angle * COUNTS_PER_RAD));
+    motor.setPower(speed);
+    while (motor.isBusy()) {
+        // You can add telemetry here to monitor progress if needed
+        // For example:
+        // telemetry.addData("Motor Position", motor.getCurrentPosition());
+        // telemetry.update();
+    }
+    motor.setPower(0);
+
+
+    if (reset) {
+        angle = -angle;
         motor.setTargetPosition((int) (angle * COUNTS_PER_RAD));
-        motor.setPower(speed);
+        motor.setPower(-speed);
         while (motor.isBusy()) {
             // You can add telemetry here to monitor progress if needed
             // For example:
             // telemetry.addData("Motor Position", motor.getCurrentPosition());
             // telemetry.update();
         }
+
         motor.setPower(0);
-
-
-        if (reset) {
-            angle = -angle;
-            motor.setTargetPosition((int) (angle * COUNTS_PER_RAD));
-            motor.setPower(-speed);
-            while (motor.isBusy()) {
-                // You can add telemetry here to monitor progress if needed
-                // For example:
-                // telemetry.addData("Motor Position", motor.getCurrentPosition());
-                // telemetry.update();
-            }
-
-            motor.setPower(0);
-        }
     }
+}
 }

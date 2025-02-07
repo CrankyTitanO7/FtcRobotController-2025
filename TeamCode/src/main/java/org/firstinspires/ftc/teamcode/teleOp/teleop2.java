@@ -64,7 +64,7 @@ public class teleop2 extends LinearOpMode {
 //                bot.wrist2.setPosition(0);
             }
 
-            bot.frontWrist.setPower(dosaction[6]);
+            bot.frontWrist.setPosition(dosaction[6]);
 
             if (gamepad2.y) {
                 clawOpen = !clawOpen;

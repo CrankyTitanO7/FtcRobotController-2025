@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name="TeleOp - auto + manual", group="jaden the great")
+
 public class teleop3 extends automated {
     @Override
     public void runOpMode() throws InterruptedException {

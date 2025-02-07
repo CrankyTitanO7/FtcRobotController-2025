@@ -4,7 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-@TeleOp(name="manual control", group="jaden the great")
+//@TeleOp(name="manual control", group="jaden the great")
+
 public abstract class manual extends LinearOpMode {
     public void manual (Robot bot, Gamepad gamepad2){
         double[] drivePower = {0, 0, 0, 0};
@@ -55,7 +56,7 @@ public abstract class manual extends LinearOpMode {
 //                bot.wrist2.setPosition(0);
         }
 
-        bot.frontWrist.setPower(dosaction[6]);
+        bot.frontWrist.setPosition(dosaction[6]);
 
         if(gamepad2.y)
 
