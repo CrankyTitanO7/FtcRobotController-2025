@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode.teleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name="TeleOp3-auto", group="jaden the great")
-public class teleop3 extends LinearOpMode {
+@TeleOp(name="TeleOp - auto + manual", group="jaden the great")
+public class teleop3 extends automated {
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -20,14 +20,20 @@ public class teleop3 extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-
-        automated.move_to_angle(bot.arm, 180, .5,  false);
-        automated.move_to_angle(bot.linearSlide, 0, .5,  false);
+        // reset all motor positions
+        motor_move_to_angle(bot.arm, 180, .5,  false);
+        motor_move_to_angle(bot.elbow, 180, .5,  false);
+        motor_move_to_angle(bot.linearSlide, 0, .5,  false);
 
 
         while (opModeIsActive()) {
             //put code here
-            automated.dosidosido(bot, gamepad2);
+            if (gamepad2.right_trigger < .5) {
+                dosidosido(bot, gamepad2);
+            } else {
+                manual(bot, gamepad2);
+            }
+
             // player 1 does the driving, so here is the driver output
             drivePower = twocntrl.dualcntrl(gamepad1, .25);
             bot.leftFrontMotor.setPower(drivePower[0]);

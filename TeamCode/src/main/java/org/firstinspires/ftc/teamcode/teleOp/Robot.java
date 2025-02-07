@@ -20,9 +20,13 @@ public class Robot {
     public final Servo claw;
     public final Servo claw2;
     public final DcMotor arm;
-    public final CRServo wrist;
-    public final CRServo wrist2;
-    public final CRServo frontWrist;
+    public final Servo wrist;
+    public final Servo wrist2;
+    public final DcMotor elbow;
+    public final Servo frontWrist;
+
+    public final ColorSensor cs1;
+    public final ColorSensor cs2;
 
     //non driving motors
 //    public final DcMotor blackWheels;
@@ -78,12 +82,20 @@ public class Robot {
         arm.setDirection(DcMotor.Direction.FORWARD);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        elbow = hardwareMap.get(DcMotor.class, "elbow");
+        elbow.setDirection(DcMotor.Direction.FORWARD);
+        elbow.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         // servos
         claw = hardwareMap.get(Servo.class, "cl"); // the one at top of linear slide
         claw2 = hardwareMap.get(Servo.class, "cl2"); // the one at front
-        wrist = hardwareMap.get(CRServo.class, "wr"); // the wrist joint at top
-        wrist2 = hardwareMap.get(CRServo.class, "wr2"); // the wrist joint at front
-        frontWrist = hardwareMap.get(CRServo.class, "fw"); // the wrist joint at front
+        wrist = hardwareMap.get(Servo.class, "wr"); // the wrist joint at top that goes up and down (pitch)
+        wrist2 = hardwareMap.get(Servo.class, "wr2"); // the wrist joint at top that goes all around (roll)
+        frontWrist = hardwareMap.get(Servo.class, "fw"); // the wrist joint at front
+
+        // sensors
+        cs1 = hardwareMap.get(ColorSensor.class, "cs1");
+        cs2 = hardwareMap.get(ColorSensor.class, "cs2");
 
 //        blackWheels = hardwareMap.dcMotor.get("black_wheels"); // expansion hub port 2
 //        blackWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);

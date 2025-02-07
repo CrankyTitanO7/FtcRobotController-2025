@@ -49,18 +49,18 @@ public class teleop2 extends LinearOpMode {
 //            bot.wrist.setPosition(bot.wrist.getPosition() + dosaction[4]);
 //            bot.wrist2.setPosition(bot.wrist2.getPosition() + dosaction[5]);
             if (gamepad2.right_stick_x < .1 || gamepad2.right_stick_x > .1){
-                bot.wrist.setPower(dosaction[4]);
+                bot.wrist.setPosition(dosaction[4]);
 //                bot.wrist2.setPosition(dosaction[5]);
             } else {
-                bot.wrist.setPower(0);
+                bot.wrist.setPosition(0);
 //                bot.wrist2.setPosition(0);
             }
 
             if (gamepad2.right_stick_y < .1 || gamepad2.right_stick_y > .1){
-                bot.wrist2.setPower(dosaction[5]);
+                bot.wrist2.setPosition(dosaction[5]);
 //                bot.wrist2.setPosition(dosaction[5]);
             } else {
-                bot.wrist2.setPower(0);
+                bot.wrist2.setPosition(0);
 //                bot.wrist2.setPosition(0);
             }
 
