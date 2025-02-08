@@ -164,16 +164,15 @@ public void servo_scan (double rlim, double blim, double glim, double dist, bool
         double dist1 = -1;
         double dist2 = -1;
 
-        if (cs1 instanceof DistanceSensor) {
-            dist1 = ((DistanceSensor) cs1).getDistance(DistanceUnit.CM);
-        }
-        if (cs2 instanceof DistanceSensor) {
-            dist2 = ((DistanceSensor) cs2).getDistance(DistanceUnit.CM);
-        }
-
-
         while (dist1 <= dist && dist2 <= dist){
             servo(servo);
+
+            if (cs1 instanceof DistanceSensor) {
+                dist1 = ((DistanceSensor) cs1).getDistance(DistanceUnit.CM);
+            }
+            if (cs2 instanceof DistanceSensor) {
+                dist2 = ((DistanceSensor) cs2).getDistance(DistanceUnit.CM);
+            }
 
             position = servo.getPosition();
             double newpos = position + .75;
