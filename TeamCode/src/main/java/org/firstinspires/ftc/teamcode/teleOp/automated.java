@@ -22,7 +22,7 @@ public abstract class automated extends manual {
 
     static final double     tierOneHeight               = ;   // short bucket height in inches
     static final double     tierTwoHeight               = ;   // medium bucket height in inches
-    static final double     tierThreeHeight             = ;   // tall bucket height in inches
+//    static final double     tierThreeHeight             = ;   // tall bucket height in inches
 
     static final double     red_lim                     = ;  // color limits
     static final double     blue_lim                    = ;  // color limits
@@ -113,8 +113,8 @@ public abstract class automated extends manual {
 
             if (level < 1) {
                 level = 1;
-            } else if (level > 3) {
-                level = 3;
+            } else if (level > 2) {
+                level = 2;
             }
 
             if (gamepad.b) {
@@ -126,8 +126,6 @@ public abstract class automated extends manual {
 
         if (level == 2) {
             ls_move_dist(ls, tierTwoHeight, .5);
-        } else if (level == 3) {
-            ls_move_dist(ls, tierThreeHeight, .5);
         } else {
             ls_move_dist(ls, tierOneHeight, .5);
         }
