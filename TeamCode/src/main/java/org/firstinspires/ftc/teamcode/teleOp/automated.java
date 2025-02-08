@@ -34,6 +34,8 @@ public abstract class automated extends manual {
     double                  step                        = 0.05;        // Step size for movement
     long                    delay                       = 100;          // Delay in milliseconds between movements
 
+    double position;
+
     double pos = minPosition;
     boolean servo_move = true;
 
@@ -172,6 +174,14 @@ public void servo_scan (double rlim, double blim, double glim, double dist, bool
 
         while (dist1 <= dist && dist2 <= dist){
             servo(servo);
+
+            position = servo.getPosition();
+            double newpos = position + .75;
+            if (newpos > 1) {
+                newpos = newpos - 1;
+            }
+            servo.setPosition(newpos);
+
             if (dist1 == -1 || dist2 == -1){
                 break; // in the case that the distance sensors do not initialize or work, the loop breaketh
             }
@@ -197,6 +207,13 @@ public void servo_scan (double rlim, double blim, double glim, double dist, bool
                 !(cs1.green() >= gLower && cs1.green() <= gUpper)) {
 
             servo(servo);
+            position = servo.getPosition();
+            double newpos = position + .75;
+            if (newpos > 1) {
+                newpos = newpos - 1;
+            }
+
+            servo.setPosition(newpos);
 
             if (gamepad.right_bumper) {
                 for (int i = 0; i < 3; i++) {gamepad.rumble(1000);}
