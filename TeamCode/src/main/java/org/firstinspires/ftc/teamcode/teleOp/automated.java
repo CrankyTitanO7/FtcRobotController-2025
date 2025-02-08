@@ -62,6 +62,8 @@ public abstract class automated extends manual {
         ColorSensor cs1 = bot.cs1;
         ColorSensor cs2 = bot.cs2;
 
+        motor_move_to_angle(arm, 120, .5, false); // JADEN WAS HERE
+
         servo_scan(red_lim, blue_lim, green_lim, ground_dist, true, frontWristRoll, cs1, cs2, gamepad);
 
         claw2.setPosition(0);
