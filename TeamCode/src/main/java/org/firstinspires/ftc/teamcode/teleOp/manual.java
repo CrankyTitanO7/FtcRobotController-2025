@@ -69,6 +69,16 @@ public abstract class manual extends LinearOpMode {
             clawOpen2 = !clawOpen2;
         }
 
+        if (gamepad2.right_bumper){
+
+            bot.elbow.setPower(.7);
+        } else if (gamepad2.left_bumper){
+            bot.elbow.setPower(-.7);
+        } else {
+            bot.elbow.setPower(0);
+        }
+
+
         sleep(250);
     }
 }
