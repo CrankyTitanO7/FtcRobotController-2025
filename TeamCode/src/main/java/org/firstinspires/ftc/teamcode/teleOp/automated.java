@@ -20,14 +20,14 @@ public abstract class automated extends manual {
     static final double     COUNTS_PER_INCH             = (COUNTS_PER_MOTOR_REV) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
 
-    static final double     tierOneHeight               = ;   // short bucket height in inches
-    static final double     tierTwoHeight               = ;   // medium bucket height in inches
+    static final double     tierOneHeight               = 13.5;   // short bucket height in inches
+    static final double     tierTwoHeight               = 31.5;   // medium bucket height in inches
 //    static final double     tierThreeHeight             = ;   // tall bucket height in inches
 
-    static final double     red_lim                     = ;  // color limits
-    static final double     blue_lim                    = ;  // color limits
-    static final double     green_lim                   = ;  // color limits
-    static final double     ground_dist                 = ;    // ground distance
+    static final double     red_lim                     = 0;  // color limits
+    static final double     blue_lim                    = 0;  // color limits
+    static final double     green_lim                   = 0;  // color limits
+    static final double     ground_dist                 = 5;    // ground distance
 
     double                  minPosition                 = 0.0;  // Minimum position
     double                  maxPosition                 = 1.0;  // Maximum position
@@ -69,8 +69,9 @@ public abstract class automated extends manual {
         claw2.setPosition(0);
         frontWrist.setPosition(0);
         motor_move_to_angle(arm, 120, .5, false);
-        frontWrist.setPosition();
-        frontWristRoll.setPosition();
+        frontWrist.setPosition(0.5);
+        frontWristRoll.setPosition(0.5)
+        ;
     }
 
     public void auto2 (Robot bot, Gamepad gamepad) {
@@ -87,8 +88,8 @@ public abstract class automated extends manual {
         claw.setPosition(1); // open claw
 
         // move to angle
-        wrist.setPosition();
-        wrist2.setPosition();
+        wrist.setPosition(0.5);
+        wrist2.setPosition(0.5);
         motor_move_to_angle(elbow, 330, .5, false);
 
         claw.setPosition(0); // close claw
@@ -99,8 +100,8 @@ public abstract class automated extends manual {
         }
 
         // reset arm position
-        wrist.setPosition();
-        wrist2.setPosition();
+        wrist.setPosition(0.5);
+        wrist2.setPosition(0.5);
         motor_move_to_angle(elbow, 90, .5, false);
 
         while (!gamepad.a){
