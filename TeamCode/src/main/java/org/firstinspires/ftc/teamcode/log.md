@@ -1,5 +1,13 @@
 # 13965 log
 
+## log 8 - 2/7/25 - big jaden
+
+## yeah
+- so i just basically programmed everything in one blow. Wrote auto. I hope it works, I've sort of chained a couple of java files.
+- color sensors are in
+- servo scanning is in
+- so many things could go wrong tomorrow. I wonder what breaks first
+
 ## log 7 - 2/4/25 - big jaden
 
 ## did
