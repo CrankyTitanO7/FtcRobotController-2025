@@ -22,13 +22,13 @@ public class teleop3 extends automated {
         if (isStopRequested()) return;
 
         // reset all motor positions
-        motor_move_to_angle(bot.arm, 180, .5,  false);
+        motor_move_to_angle(bot.arm, 0, .5,  false);
         motor_move_to_angle(bot.elbow, 180, .5,  false);
         motor_move_to_angle(bot.linearSlide, 0, .5,  false);
 
         while (opModeIsActive()) {
             //put code here
-            if (gamepad2.right_trigger < .5) {
+            if (gamepad2.right_trigger > .5) { // change to gamepad 1 later
                 dosidosido(bot, gamepad2);
             } else {
                 manual(bot, gamepad2);

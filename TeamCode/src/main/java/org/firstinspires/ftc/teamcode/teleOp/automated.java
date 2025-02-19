@@ -68,7 +68,7 @@ public abstract class automated extends manual {
 
         claw2.setPosition(0);
         frontWrist.setPosition(0);
-        motor_move_to_angle(arm, 120, .5, false);
+        motor_move_to_angle(arm, -120, .5, false);
         frontWrist.setPosition(0.5);
         frontWristRoll.setPosition(0.5)
         ;
@@ -227,8 +227,8 @@ public void servo_scan (double rlim, double blim, double glim, double dist, bool
 }
 
 public static void ls_move_dist (DcMotor ls, double dist, double speed) {
-    ls.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     ls.setTargetPosition((int) Math.round(dist));
+    ls.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     ls.setPower(speed);
     while (ls.isBusy()) { // Wait for the motor to reach the target
         // You can add telemetry here to monitor progress if needed
@@ -240,8 +240,8 @@ public static void ls_move_dist (DcMotor ls, double dist, double speed) {
 }
 public static void motor_move_to_angle (DcMotor motor, double angle, double speed, boolean reset) {
     angle = Math.toRadians(angle);
-    motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     motor.setTargetPosition((int) (angle * COUNTS_PER_RAD));
+    motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     motor.setPower(speed);
     while (motor.isBusy()) {
         // You can add telemetry here to monitor progress if needed
