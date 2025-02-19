@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode.teleOp;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.linearOpMode;
-
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -11,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-public abstract class automated extends manual {
+public abstract class handoff extends manual {
 
     static final double     COUNTS_PER_MOTOR_REV        = 288; // correct
     static final double     COUNTS_PER_RAD              = (COUNTS_PER_MOTOR_REV) / ( 2 * (Math.PI));

@@ -35,11 +35,29 @@ public class motors_test extends LinearOpMode {
     if (isStopRequested()) return;
 
     while (opModeIsActive()) {
-      telemetry.addData("mot", mot);
-      telemetry.addData("serv", serv);
-      telemetry.addData("motorang", motorang);
-      telemetry.addData("servoang", servoang);
-      telemetry.update();
+      try {
+        telemetry.addData("mot", mot);
+      } catch (Exception e) {
+        telemetry.addData("error (mot)", e);
+      }
+
+      try {
+        telemetry.addData("serv", serv);
+      } catch (Exception e) {
+        telemetry.addData("error (serv)", e);
+      }
+
+      try {
+        telemetry.addData("motorang", motorang);
+      } catch (Exception e) {
+        telemetry.addData("error (motorang)", e);
+      }
+
+      try {
+        telemetry.addData("servoang", servoang);
+      } catch (Exception e) {
+        telemetry.addData("error (servoang)", e);
+      }
 
       telemetry.update();
 
@@ -60,7 +78,7 @@ public class motors_test extends LinearOpMode {
       servos[serv].setPosition(servoang);
       motorang = trig(gamepad1.right_stick_x, gamepad1.right_stick_y);
 
-      automated.motor_move_to_angle(motors[mot], 0, .5, false);
+      handoff.motor_move_to_angle(motors[mot], 0, .5, false);
     }
   }
 
@@ -68,10 +86,13 @@ public class motors_test extends LinearOpMode {
     try{
 
       return Math.atan(x/y);
+
     } catch (Exception e) {
+
       telemetry.addData("error", e);
       telemetry.update();
       return 0;
+
     }
   }
 

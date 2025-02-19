@@ -1,11 +1,10 @@
 package org.firstinspires.ftc.teamcode.teleOp;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name="TeleOp3 - auto + manual", group="jaden the great")
 
-public class teleop3 extends automated {
+public class teleop3 extends handoff {
     @Override
     public void runOpMode() throws InterruptedException {
 
