@@ -10,45 +10,47 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class handoff {
 
-    static final double     COUNTS_PER_MOTOR_REV        = 288; // correct
-    static final double     COUNTS_PER_RAD              = (COUNTS_PER_MOTOR_REV) / ( 2 * (Math.PI));
+    static final double     COUNTS_PER_MOTOR_REV_COREHEX= 288;                                      // the counts per motor rev of a core hex motor
+    static final double     PPR                         = 384.5;                                    // 5202 Series Yellow Jacket Planetary Gear Motor (13.7:1 Ratio, 435 RPM, 3.3 - 5V Encoder)
+
+
+    static final double     COUNTS_PER_MOTOR_REV_GOBILDA= PPR * 4;                                  // the counts per motor rev of a goBILDA motor (for linear slide)
+    static final double     COUNTS_PER_RAD              = (COUNTS_PER_MOTOR_REV_COREHEX) / ( 2 * (Math.PI));
     static final double     WHEEL_RADIUS_INCHES         = 1;
-    static final double     WHEEL_DIAMETER_INCHES       = 2 * WHEEL_RADIUS_INCHES ;     // For figuring circumference
-    static final double     COUNTS_PER_INCH             = (COUNTS_PER_MOTOR_REV) /
+    static final double     WHEEL_DIAMETER_INCHES       = 2 * WHEEL_RADIUS_INCHES ;                 // For figuring circumference
+    static final double     COUNTS_PER_INCH             = (COUNTS_PER_MOTOR_REV_GOBILDA) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
 
-    static final double     tierOneHeight               = 13.5;   // short bucket height in inches
-    static final double     tierTwoHeight               = 31.5;   // medium bucket height in inches
-//    static final double     tierThreeHeight             = ;   // tall bucket height in inches
+    static final double     tierOneHeight               = 13.5;                                     // short bucket height in inches
+    static final double     tierTwoHeight               = 31.5;                                     // medium bucket height in inches
 
-    static final double     red_lim                     = 0;  // color limits
-    static final double     blue_lim                    = 0;  // color limits
-    static final double     green_lim                   = 0;  // color limits
-    static final double     ground_dist                 = 5;    // ground distance
+    static final double     red_lim                     = 0;                                        // color limits
+    static final double     blue_lim                    = 0;                                        // color limits
+    static final double     green_lim                   = 0;                                        // color limits
+    static final double     ground_dist                 = 5;                                        // ground distance IN CENTIMETERS from the front arm in scanning position
 
-    double                  minPosition                 = 0.0;  // Minimum position
-    double                  maxPosition                 = 1.0;  // Maximum position
-    double                  step                        = 0.05;        // Step size for movement
-    long                    delay                       = 100;          // Delay in milliseconds between movements
+    static double           minPosition                 = 0.0;                                      // Minimum position
+    static double           maxPosition                 = 1.0;                                      // Maximum position
+    static double           step                        = 0.05;                                     // Step size for movement
 
-    double position;
+    static double position;                                                                         // servo position. needed in bigger scope
 
-    double pos = minPosition;
-    boolean servo_move = true;
+    static double pos                                  = minPosition;                               // servo position (iterative variable. stored in bigger scope)
+    static boolean servo_move                          = true;                                      // determines the direction of servo scan
 
 
-    public void handoffSequence(Robot bot, Gamepad gamepad2) {
-        if (gamepad2.right_bumper) {
-            auto1(bot, gamepad2);
-        }
+    public static void handoffSequence(Robot bot, Gamepad gamepad2) {
         if (gamepad2.left_bumper) {
-            auto2(bot, gamepad2);
+            auto1(bot, gamepad2); // automated handoff, part 1
+        }
+        if (gamepad2.right_bumper) {
+            auto2(bot, gamepad2); // automated handoff, part 2
         }
     }
 
 
 
-    public void auto1 (Robot bot, Gamepad gamepad){
+    public static void auto1 (Robot bot, Gamepad gamepad){
         DcMotor arm = bot.arm;
 
         Servo frontWrist = bot.frontWrist;
@@ -59,19 +61,22 @@ public class handoff {
         ColorSensor cs1 = bot.cs1;
         ColorSensor cs2 = bot.cs2;
 
-        motor_move_to_angle(arm, 120, .5, false); // JADEN WAS HERE
+        motor_move_to_angle(arm, 120, .5, false);                                // move the arm to the scanning angle
 
-        servo_scan(red_lim, blue_lim, green_lim, ground_dist, true, frontWristRoll, cs1, cs2, gamepad);
+        servo_scan(red_lim, blue_lim, green_lim,                                                    // rgb limits
+                ground_dist, true,                                                         // distance limits
+                frontWristRoll, cs1, cs2,                                                           // hardware
+                gamepad);                                                                           // game pad
 
-        claw2.setPosition(0);
-        frontWrist.setPosition(0);
-        motor_move_to_angle(arm, -120, .5, false);
-        frontWrist.setPosition(0.5);
-        frontWristRoll.setPosition(0.5);
+        claw2.setPosition(0);                                                                       // close claw
+        frontWrist.setPosition(0);                                                                  // set front wrist in handoff position
+        motor_move_to_angle(arm, -120, .5, false);                              // set arm to handoff position
+        frontWrist.setPosition(0.5);                                                                // set front wrist PITCH to handoff position
+        frontWristRoll.setPosition(0.5);                                                            // set front wrist ROLL to handoff position
     }
 
-    public void auto2 (Robot bot, Gamepad gamepad) {
-        int level = 1;
+    public static void auto2 (Robot bot, Gamepad gamepad) {
+        int level = 1;                                                                              // instantly sets the target bucket to tier 1 (lower bucket(
 
         DcMotor ls = bot.linearSlide;
         // servos
@@ -81,33 +86,60 @@ public class handoff {
         Servo wrist2 = bot.wrist2;
         DcMotor elbow = bot.elbow;
 
-        claw.setPosition(1); // open claw
+        claw.setPosition(1);                                                                        // open claw
 
         // move to angle
-        wrist.setPosition(0.5);
-        wrist2.setPosition(0.5);
-        motor_move_to_angle(elbow, 330, .5, false);
+        wrist.setPosition(0.5);                                                                     // set top wrist PITCH to handoff position
+        wrist2.setPosition(0.5);                                                                    // set top wrist ROLL to handoff position
+        motor_move_to_angle(elbow, 330, .5, false);                              // set elbow to handoff position
 
-        claw.setPosition(0); // close claw
-        claw2.setPosition(1); // open front claw
+        claw.setPosition(0);                                                                        // close top claw
+        claw2.setPosition(1);                                                                       // open front claw
 
         if (gamepad.a){
-            claw.setPosition(1); // open claw (emergency)
+            claw.setPosition(1);                                                                    // open top claw (emergency)
         }
 
         // reset arm position
-        wrist.setPosition(0.5);
-        wrist2.setPosition(0.5);
-        motor_move_to_angle(elbow, 90, .5, false);
+        wrist.setPosition(0.5);                                                                     // set top wrist PITCH to bucket drop position
+        wrist2.setPosition(0.5);                                                                    // set top wrist ROLL to bucket drop position
+        motor_move_to_angle(elbow, 90, .5, false);                               // set elbow to bucket drop position
 
-        while (!gamepad.a){
+        boolean dpadUpPressed = false;
+        boolean dpadDownPressed = false;
+        int lastLevel = 0;
 
-            gamepad.rumbleBlips(level);
+        while (!gamepad.a) {
+            // tier select:
 
+            /*
+            while the a button is not pressed:
+                select a tier:
+                - press dpad up to increase tier
+                - press dpad down to decrease it
+                press b or a to confirm
+
+                the gamepad rumble should indicate which level is currently selected
+            */
+
+            // Dpad Up
             if (gamepad.dpad_up) {
-                level++;
-            } else if (gamepad.dpad_down) {
-                level--;
+                if (!dpadUpPressed) { // If it was not pressed before, now it is
+                    level++;
+                    dpadUpPressed = true;
+                }
+            } else {
+                dpadUpPressed = false; // Reset when the button is released
+            }
+
+            // Dpad Down
+            if (gamepad.dpad_down) {
+                if (!dpadDownPressed) { // If it was not pressed before, now it is
+                    level--;
+                    dpadDownPressed = true;
+                }
+            } else {
+                dpadDownPressed = false; // Reset when the button is released
             }
 
             if (level < 1) {
@@ -116,12 +148,17 @@ public class handoff {
                 level = 2;
             }
 
+            if (level != lastLevel){
+                gamepad.rumbleBlips(level);
+                lastLevel = level;
+            }
+
             if (gamepad.b) {
                 break;
             }
         }
 
-        if (level == 2) {
+        if (level == 2) {                                                                           // determined on what the "level" variable is, move to that tier
             ls_move_dist(ls, tierTwoHeight, .5);
         } else {
             ls_move_dist(ls, tierOneHeight, .5);
@@ -130,7 +167,7 @@ public class handoff {
 
     }
 
-    public void servo (Servo servo) {
+    public static void servo (Servo servo) {
 
         servo.setPosition(pos); // move to pos
 
@@ -151,39 +188,37 @@ public class handoff {
     }
 
 
-public void servo_scan (double rlim, double blim, double glim, double dist, boolean distmode, Servo servo, ColorSensor cs1, ColorSensor cs2, Gamepad gamepad) {
+public static void servo_scan (                                                                     // scans using color/distance sensor to orient the claw servo (claw roll) into position to grab
+        double rlim, double blim, double glim,                                                      // limits for color sensor
+        double dist, boolean distmode,                                                              // limits for distance sensor
+        Servo servo, ColorSensor cs1, ColorSensor cs2,                                              // hardware
+        Gamepad gamepad)                                                                            // gamepad
+{
 
-    if (distmode) {
+    if (distmode) {                                                                                 // if we are using distance sensor
         double dist1 = -1;
         double dist2 = -1;
 
         while (dist1 <= dist && dist2 <= dist){
-            servo(servo);
+            servo(servo);                                                                           // move one unit
 
             if (cs1 instanceof DistanceSensor) {
-                dist1 = ((DistanceSensor) cs1).getDistance(DistanceUnit.CM);
+                dist1 = ((DistanceSensor) cs1).getDistance(DistanceUnit.CM);                        // update distance 1
             }
             if (cs2 instanceof DistanceSensor) {
-                dist2 = ((DistanceSensor) cs2).getDistance(DistanceUnit.CM);
+                dist2 = ((DistanceSensor) cs2).getDistance(DistanceUnit.CM);                        // update distance 2
             }
-
-            position = servo.getPosition();
-            double newpos = position + .75;
-            if (newpos > 1) {
-                newpos = newpos - 1;
-            }
-            servo.setPosition(newpos);
 
             if (dist1 == -1 || dist2 == -1){
                 break; // in the case that the distance sensors do not initialize or work, the loop breaketh
             }
             if (gamepad.right_bumper){
                 for (int i = 0; i < 3; i++) {gamepad.rumble(1000);}
-                break; // in the case that the distance sensors do not initialize or work, the loop breaketh
+                break;                                                                              // emergency breakout using right bumper
             }
         }
 
-    } else {
+    } else {                                                                                        // if we are using color sensor
         double tolerance = 10;
 
         double rLower = rlim - tolerance;
@@ -218,8 +253,8 @@ public void servo_scan (double rlim, double blim, double glim, double dist, bool
 
 }
 
-public static void ls_move_dist (DcMotor ls, double dist, double speed) {
-    ls.setTargetPosition((int) Math.round(dist));
+public static void ls_move_dist (DcMotor ls, double dist, double speed) {                           // function to move the linear slide to a certain distance
+    ls.setTargetPosition((int) (dist * COUNTS_PER_INCH));
     ls.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     ls.setPower(speed);
     while (ls.isBusy()) { // Wait for the motor to reach the target
@@ -230,7 +265,7 @@ public static void ls_move_dist (DcMotor ls, double dist, double speed) {
     }
     ls.setPower(0); // Stop the motor
 }
-public static void motor_move_to_angle (DcMotor motor, double angle, double speed, boolean reset) {
+public static void motor_move_to_angle (DcMotor motor, double angle, double speed, boolean reset) { // function to move the arm to a certain angle. it is used many times in other files
     angle = Math.toRadians(angle);
     motor.setTargetPosition((int) (angle * COUNTS_PER_RAD));
     motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -244,7 +279,7 @@ public static void motor_move_to_angle (DcMotor motor, double angle, double spee
     motor.setPower(0);
 
 
-    if (reset) {
+    if (reset) {                                                                                    // optional resetting of the angle
         angle = -angle;
         motor.setTargetPosition((int) (angle * COUNTS_PER_RAD));
         motor.setPower(-speed);

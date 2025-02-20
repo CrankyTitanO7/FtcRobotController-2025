@@ -1,13 +1,15 @@
 package org.firstinspires.ftc.teamcode.teleOp;
 
-
-import static org.firstinspires.ftc.teamcode.teleOp.handoff.motor_move_to_angle;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
+
+
+// import methods from handoff.java
+import static org.firstinspires.ftc.teamcode.teleOp.handoff.motor_move_to_angle;
+import static org.firstinspires.ftc.teamcode.teleOp.handoff.handoffSequence;
 
 @TeleOp(name="TeleOp3 - auto + manual", group="jaden the great")
 
@@ -21,7 +23,6 @@ public class teleop3 extends LinearOpMode {
         telemetry.update();
 
         Robot bot = new Robot(hardwareMap);
-        handoff handoff = new handoff();
 
         double[] drivePower = {0, 0, 0, 0};
 
@@ -40,8 +41,11 @@ public class teleop3 extends LinearOpMode {
 
         while (opModeIsActive()) {
             //put code here
+
+            // if gamepad1 trigger is pressed, it will undergo automatic handoff. If not, it will undergo manual control.
+
             if (gamepad1.right_trigger > .5) {
-                handoff.handoffSequence(bot, gamepad2);
+                handoffSequence(bot, gamepad2);
                 sleep(20);
             } else {
                 // player two operates claw, secondary claw, arm, and various wrist joints.
