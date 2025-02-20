@@ -1,4 +1,8 @@
 package org.firstinspires.ftc.teamcode.teleOp;
+
+
+import static org.firstinspires.ftc.teamcode.teleOp.handoff.motor_move_to_angle;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,9 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp(name="TeleOp3 - auto + manual", group="jaden the great")
 
 public class teleop3 extends LinearOpMode {
-
     @Override
-
 
     public void runOpMode() throws InterruptedException {
 
@@ -23,19 +25,14 @@ public class teleop3 extends LinearOpMode {
 
         double[] drivePower = {0, 0, 0, 0};
 
-        // manual control variables
-        double[] dosaction = {0, 0, 0, 0};
-        boolean[] clawOpen = {false, false};
-        double armspeed = 1;
-
         waitForStart();
 
         if (isStopRequested()) return;
 
         // reset all motor positions
-        handoff.motor_move_to_angle(bot.arm, 0, .5,  false);
-        handoff.motor_move_to_angle(bot.elbow, -180, .5,  false);
-        handoff.motor_move_to_angle(bot.linearSlide, 0, .5,  false);
+        motor_move_to_angle(bot.arm, 0, .5,  false);
+        motor_move_to_angle(bot.elbow, -180, .5,  false);
+        motor_move_to_angle(bot.linearSlide, 0, .5,  false);
 
         // open claws
         bot.claw.setPosition(.25);
@@ -45,7 +42,7 @@ public class teleop3 extends LinearOpMode {
             //put code here
             if (gamepad1.right_trigger > .5) {
                 handoff.handoffSequence(bot, gamepad2);
-
+                sleep(20);
             } else {
                 // player two operates claw, secondary claw, arm, and various wrist joints.
                 manual(bot, gamepad2,
@@ -65,6 +62,9 @@ public class teleop3 extends LinearOpMode {
 
         telemetry.update();
     }
+
+
+    // manual function
 
     /**
      * Controls the robot's various mechanisms based on gamepad input.

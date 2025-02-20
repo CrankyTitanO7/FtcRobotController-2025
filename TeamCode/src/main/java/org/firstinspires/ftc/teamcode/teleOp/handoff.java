@@ -67,8 +67,7 @@ public class handoff {
         frontWrist.setPosition(0);
         motor_move_to_angle(arm, -120, .5, false);
         frontWrist.setPosition(0.5);
-        frontWristRoll.setPosition(0.5)
-        ;
+        frontWristRoll.setPosition(0.5);
     }
 
     public void auto2 (Robot bot, Gamepad gamepad) {
