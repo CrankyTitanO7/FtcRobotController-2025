@@ -16,6 +16,11 @@ public class teleop3 extends handoff {
 
         double[] drivePower = {0, 0, 0, 0};
 
+        // manual variables
+        double[] dosaction = {0, 0, 0, 0};
+        boolean[] clawOpen = {false, false};
+        double armspeed = 1;
+
         waitForStart();
 
         if (isStopRequested()) return;
@@ -25,12 +30,22 @@ public class teleop3 extends handoff {
         motor_move_to_angle(bot.elbow, -180, .5,  false);
         motor_move_to_angle(bot.linearSlide, 0, .5,  false);
 
+        // open claws
+        bot.claw.setPosition(.25);
+        bot.claw2.setPosition(.25);
+
         while (opModeIsActive()) {
             //put code here
-            if (gamepad2.right_trigger > .5) { // change to gamepad 1 later
-                dosidosido(bot, gamepad2);
+            if (gamepad1.right_trigger > .5) {
+                handoffSequence(bot, gamepad2);
+
             } else {
-                manual(bot, gamepad2);
+                // player two operates claw, secondary claw, arm, and various wrist joints.
+                manual(bot, gamepad2,
+                        .3, .3,
+                        .3, .3,
+                        .5, .5, .5);
+
             }
 
             // player 1 does the driving, so here is the driver output

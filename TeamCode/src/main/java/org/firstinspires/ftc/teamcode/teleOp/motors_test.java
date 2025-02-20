@@ -5,7 +5,6 @@ package org.firstinspires.ftc.teamcode.teleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "am motor test", group = "jaden the great")
@@ -26,10 +25,10 @@ public class motors_test extends LinearOpMode {
     DcMotor[] motors = {arm, elbow, linearSlide};
     Servo[] servos = {claw, claw2, wrist, wrist2};
 
-     int mot = 0;
-     int serv = 0;
-     double motorang = 0;
-     double servoang = 0;
+    int mot = 0;
+    int serv = 0;
+    double motorang = 0;
+    double servoang = 0;
 
     waitForStart();
     // stop if it has been stopped
@@ -78,8 +77,8 @@ public class motors_test extends LinearOpMode {
 
       double leftStickX = gamepad1.left_stick_x;
       double leftStickY = gamepad1.left_stick_y;
-      leftStickX = (Math.abs(leftStickX) > DEADZONE) ? leftStickX : 0;
-      leftStickY = (Math.abs(leftStickY) > DEADZONE) ? leftStickY : 0;
+      leftStickX = (Math.abs(leftStickX) > DEADZONE) ? leftStickX : 0; // ternary operators
+      leftStickY = (Math.abs(leftStickY) > DEADZONE) ? leftStickY : 0; // yet another ternary operator
 
       servoang = trig(leftStickX, leftStickY) / (2 * Math.PI);
 

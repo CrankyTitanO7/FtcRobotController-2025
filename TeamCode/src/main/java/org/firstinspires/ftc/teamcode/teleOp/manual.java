@@ -2,82 +2,103 @@ package org.firstinspires.ftc.teamcode.teleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.Servo;
 
 //@TeleOp(name="manual control", group="jaden the great")
 
 public abstract class manual extends LinearOpMode {
-    public void manual (Robot bot, Gamepad gamepad2){
-        double[] dosaction = {0, 0, 0, 0};
-        boolean clawOpen = false;
-        boolean clawOpen2 = false;
-        double armspeed;
 
-        if(gamepad2.right_bumper)
-        {
-            armspeed = 1;
-        } else
 
-        {
-            armspeed = .5;
+    /**
+     * Controls the robot's various mechanisms based on gamepad input.
+     *
+     * @param bot              The robot object.
+     * @param gamepad2         The gamepad object for input.
+     * @param frontPitchSens   Sensitivity for front wrist pitch.
+     * @param frontRollSens    Sensitivity for front wrist roll.
+     * @param backPitchSens    Sensitivity for back wrist pitch.
+     * @param backRollSens     Sensitivity for back wrist roll.
+     * @param armSens          Sensitivity for arm movement.
+     * @param linearSlideSens  Sensitivity for linear slide movement.
+     * @param elbowSens        Sensitivity for elbow movement.
+     *
+     */
+
+
+    public void manual (Robot bot, Gamepad gamepad2,
+                        double frontPitchSens, double frontRollSens,
+                        double backPitchSens, double backRollSens,
+                        double armSens, double linearSlideSens, double elbowSens) {
+
+        Servo fwroll = bot.frontWristRoll; //pitch
+        Servo fwpitch = bot.frontWrist; // roll
+        Servo bwpitch = bot.wrist; // pitch
+        Servo bwroll = bot.wrist2; //roll
+
+        Servo frontclaw = bot.claw;
+        Servo backclaw = bot.claw2;
+
+        DcMotor arm = bot.arm;
+        DcMotor linear = bot.linearSlide;
+        DcMotor elbow = bot.elbow;
+
+
+        // open and close the claws
+        if (gamepad2.a) {
+            if (frontclaw.getPosition() < .175) {
+                frontclaw.setPosition(.25);
+            } else {
+                frontclaw.setPosition(.1);
+            }
         }
 
-        // player two operates claw, secondary claw, arm, and various wrist joints.
-        dosaction =twocntrl.dosido(gamepad2.left_trigger,gamepad2.right_trigger,clawOpen,clawOpen2,gamepad2.left_stick_x,gamepad2.right_stick_y,0.5,0.1,armspeed,gamepad2.right_stick_x,gamepad2.left_stick_y);
-
-        bot.linearSlide.setPower(dosaction[0]);
-        bot.claw.setPosition(dosaction[1]);
-        bot.claw2.setPosition(dosaction[2]);
-        bot.arm.setPower(dosaction[3]);
-//            bot.wrist.setPosition(bot.wrist.getPosition() + dosaction[4]);
-//            bot.wrist2.setPosition(bot.wrist2.getPosition() + dosaction[5]);
-        if(gamepad2.right_stick_x< .1||gamepad2.right_stick_x >.1)
-
-        {
-            bot.wrist.setPosition(dosaction[4]);
-//                bot.wrist2.setPosition(dosaction[5]);
-        } else
-
-        {
-            bot.wrist.setPosition(0);
-//                bot.wrist2.setPosition(0);
+        if (gamepad2.b) {
+            if (backclaw.getPosition() < .375) {
+                backclaw.setPosition(.5);
+            } else {
+                backclaw.setPosition(.25);
+            }
         }
 
-        if(gamepad2.right_stick_y< .1||gamepad2.right_stick_y >.1)
 
-        {
-            bot.wrist2.setPosition(dosaction[5]);
-//                bot.wrist2.setPosition(dosaction[5]);
-        } else
+        // control the linear slides OR arm depending on if y is pressed
 
-        {
-            bot.wrist2.setPosition(0);
-//                bot.wrist2.setPosition(0);
-        }
+        double pow = gamepad2.right_trigger - gamepad2.left_trigger;
 
-        bot.frontWrist.setPosition(dosaction[6]);
-
-        if(gamepad2.y)
-
-        {
-            clawOpen = !clawOpen;
-        }
-        if(gamepad2.b)
-
-        {
-            clawOpen2 = !clawOpen2;
-        }
-
-        if (gamepad2.right_bumper){
-
-            bot.elbow.setPower(.7);
-        } else if (gamepad2.left_bumper){
-            bot.elbow.setPower(-.7);
+        if (gamepad2.y) {
+            linear.setPower(linearSlideSens * pow);
         } else {
-            bot.elbow.setPower(0);
+            arm.setPower(armSens * pow);
         }
 
 
-        sleep(250);
+        // control the elbow
+
+        if (gamepad2.dpad_up) {
+            elbow.setPower(elbowSens);
+        } else if (gamepad2.dpad_down) {
+            elbow.setPower(-elbowSens);
+        } else {
+            elbow.setPower(0);
+        }
+
+
+        // control the front wrist pitch
+        fwpitch.setPosition(fwpitch.getPosition() + gamepad2.left_stick_y * frontPitchSens);
+
+        // control the front wrist roll
+        fwroll.setPosition(fwroll.getPosition() + gamepad2.left_stick_x * frontRollSens);
+
+
+        // control the back wrist pitch
+        bwpitch.setPosition(bwpitch.getPosition() + gamepad2.right_stick_y * backPitchSens);
+
+        // control the back wrist roll
+        bwroll.setPosition(bwroll.getPosition() + gamepad2.right_stick_x * backRollSens);
+
+
+        sleep(20);
     }
 }

@@ -37,7 +37,7 @@ public abstract class handoff extends manual {
     boolean servo_move = true;
 
 
-    public void dosidosido (Robot bot, Gamepad gamepad2) {
+    public void handoffSequence(Robot bot, Gamepad gamepad2) {
         if (gamepad2.right_bumper) {
             auto1(bot, gamepad2);
         }
