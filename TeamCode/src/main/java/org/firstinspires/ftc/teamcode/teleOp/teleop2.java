@@ -40,7 +40,15 @@ public class teleop2 extends LinearOpMode {
             bot.rightRearMotor.setPower(drivePower[3]);
 
             // player two operates claw, secondary claw, arm, and various wrist joints.
-            dosaction = twocntrl.dosido(gamepad2.left_trigger, gamepad2.right_trigger, clawOpen, clawOpen2, gamepad2.left_stick_x, gamepad2.right_stick_y, 0.5, 0.1, armspeed, gamepad2.right_stick_x, gamepad2.left_stick_y);
+            dosaction = twocntrl.dosido(
+                    gamepad2.left_trigger,
+                    gamepad2.right_trigger,
+                    clawOpen,
+                    clawOpen2,
+                    gamepad2.left_stick_x,
+                    gamepad2.right_stick_y,
+                    0.5, 0.1,
+                    armspeed, gamepad2.right_stick_x, gamepad2.left_stick_y);
 
             bot.linearSlide.setPower(dosaction[0]);
             bot.claw.setPosition(dosaction[1]);

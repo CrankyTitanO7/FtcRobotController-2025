@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 public abstract class manual extends LinearOpMode {
     public void manual (Robot bot, Gamepad gamepad2){
-        double[] drivePower = {0, 0, 0, 0};
         double[] dosaction = {0, 0, 0, 0};
         boolean clawOpen = false;
         boolean clawOpen2 = false;

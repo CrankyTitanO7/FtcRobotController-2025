@@ -5,36 +5,44 @@ package org.firstinspires.ftc.teamcode.teleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "am motor test", group = "jaden the great")
 //@Disabled
 public class motors_test extends LinearOpMode {
-  Robot bot = new Robot(hardwareMap);
-
-  DcMotor arm = bot.arm;
-  DcMotor elbow = bot.elbow;
-  DcMotor linearSlide = bot.linearSlide;
-  Servo claw = bot.claw;
-  Servo claw2 = bot.claw2;
-  Servo wrist = bot.wrist;
-  Servo wrist2 = bot.wrist2;
-
-  DcMotor[] motors = {arm, elbow, linearSlide};
-  Servo[] servos = {claw, claw2, wrist, wrist2};
-
-  public int mot = 0;
-  public int serv = 0;
-  public double motorang = 0;
-  public double servoang = 0;
-
   @Override
   public void runOpMode() throws InterruptedException {
+    Robot bot = new Robot(hardwareMap);
+
+    DcMotor arm = bot.arm;
+    DcMotor elbow = bot.elbow;
+    DcMotor linearSlide = bot.linearSlide;
+    Servo claw = bot.claw;
+    Servo claw2 = bot.claw2;
+    Servo wrist = bot.wrist;
+    Servo wrist2 = bot.wrist2;
+
+    DcMotor[] motors = {arm, elbow, linearSlide};
+    Servo[] servos = {claw, claw2, wrist, wrist2};
+
+     int mot = 0;
+     int serv = 0;
+     double motorang = 0;
+     double servoang = 0;
+
     waitForStart();
-
+    // stop if it has been stopped
     if (isStopRequested()) return;
+    //main loop
 
+    final double DEADZONE = 0.1;
     while (opModeIsActive()) {
+
+
+      //prints data
+
+
       try {
         telemetry.addData("mot", mot);
       } catch (Exception e) {
@@ -61,34 +69,58 @@ public class motors_test extends LinearOpMode {
 
       telemetry.update();
 
-      if (gamepad1.dpad_up) {
-        mot++;
+      // decide which motor
+
+      mot = 1; // here mot
+      serv = 0; // here serv
+
+      sleep(250);
+
+      double leftStickX = gamepad1.left_stick_x;
+      double leftStickY = gamepad1.left_stick_y;
+      leftStickX = (Math.abs(leftStickX) > DEADZONE) ? leftStickX : 0;
+      leftStickY = (Math.abs(leftStickY) > DEADZONE) ? leftStickY : 0;
+
+      servoang = trig(leftStickX, leftStickY) / (2 * Math.PI);
+
+      if (servoang > 1) {
+        telemetry.addData("servoang exceeds limit", servoang);
+        servoang = 1;
       }
-      if (gamepad1.dpad_down) {
-        mot--;
-      }
-      if (gamepad1.dpad_right) {
-        serv++;
-      }
-      if (gamepad1.dpad_left) {
-        serv--;
+      if (servoang < 0) {
+        telemetry.addData("servoang unexceeds limit", servoang);
+        servoang = 0;
       }
 
-      servoang = trig(gamepad1.left_stick_x, gamepad1.left_stick_y);
-      servos[serv].setPosition(servoang);
-      motorang = trig(gamepad1.right_stick_x, gamepad1.right_stick_y);
+      try {
+        servos[serv].setPosition(servoang);
+      } catch (Exception e) {
+        telemetry.addData("error (servo)", e);
+        telemetry.addData("servoang value: ", servoang);
+      }
 
-      handoff.motor_move_to_angle(motors[mot], 0, .5, false);
+      telemetry.update();
+
+        double rightStickX = gamepad1.right_stick_x;
+        double rightStickY = gamepad1.right_stick_y;
+        rightStickX = (Math.abs(rightStickX) > DEADZONE) ? rightStickX : 0;
+        rightStickY = (Math.abs(rightStickY) > DEADZONE) ? rightStickY : 0;
+
+      motorang = trig(rightStickX, rightStickY);
+
+      handoff.motor_move_to_angle(motors[mot], motorang, .5, false);
     }
   }
 
   public double trig (double x, double y) {
     try{
+      if (x == 0 && y == 0) {
+        return 0;
+      }
 
-      return Math.atan(x/y);
+      return Math.atan(y/x);
 
     } catch (Exception e) {
-
       telemetry.addData("error", e);
       telemetry.update();
       return 0;

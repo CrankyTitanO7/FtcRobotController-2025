@@ -22,7 +22,7 @@ public class teleop3 extends handoff {
 
         // reset all motor positions
         motor_move_to_angle(bot.arm, 0, .5,  false);
-        motor_move_to_angle(bot.elbow, 180, .5,  false);
+        motor_move_to_angle(bot.elbow, -180, .5,  false);
         motor_move_to_angle(bot.linearSlide, 0, .5,  false);
 
         while (opModeIsActive()) {
