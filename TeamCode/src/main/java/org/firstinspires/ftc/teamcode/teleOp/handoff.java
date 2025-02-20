@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-public abstract class handoff extends manual {
+public class handoff {
 
     static final double     COUNTS_PER_MOTOR_REV        = 288; // correct
     static final double     COUNTS_PER_RAD              = (COUNTS_PER_MOTOR_REV) / ( 2 * (Math.PI));
@@ -120,8 +120,6 @@ public abstract class handoff extends manual {
             if (gamepad.b) {
                 break;
             }
-
-            sleep(250);
         }
 
         if (level == 2) {
@@ -136,8 +134,6 @@ public abstract class handoff extends manual {
     public void servo (Servo servo) {
 
         servo.setPosition(pos); // move to pos
-        sleep(delay);
-
 
         // alternate between scanning left or right
 
