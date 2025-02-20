@@ -70,8 +70,22 @@ public class motors_test extends LinearOpMode {
 
       // decide which motor
 
-      mot = 1; // here mot
-      serv = 0; // here serv
+
+      if (gamepad1.dpad_right) {
+        mot++;
+        while (gamepad1.dpad_right){}
+      } else if (gamepad1.dpad_left){
+        mot--;
+        while (gamepad1.dpad_left){}
+      }
+
+      if (gamepad1.dpad_up) {
+        serv++;
+        while (gamepad1.dpad_up){}
+      } else if (gamepad1.dpad_down){
+        serv--;
+        while (gamepad1.dpad_down){}
+      }
 
       sleep(250);
 
@@ -107,17 +121,28 @@ public class motors_test extends LinearOpMode {
 
       motorang = trig(rightStickX, rightStickY);
 
-      handoff.motor_move_to_angle(motors[mot], motorang, .5, false);
+      handoff.motor_move_to_angle(motors[mot], motorang, 10, false);
+//      sleep(250);
     }
   }
 
   public double trig (double x, double y) {
     try{
+
+      double theta = Math.atan(x/y);
       if (x == 0 && y == 0) {
         return 0;
       }
 
-      return Math.atan(y/x);
+      if (x < 0){
+        if (y > 0){
+          theta = Math.PI - Math.atan(-x/y);
+        } else {
+          theta = Math.PI + Math.atan(x/y);
+        }
+      }
+
+      return Math.toDegrees(theta);
 
     } catch (Exception e) {
       telemetry.addData("error", e);

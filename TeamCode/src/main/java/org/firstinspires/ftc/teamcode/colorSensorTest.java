@@ -92,7 +92,7 @@ public class colorSensorTest extends LinearOpMode {
     cs2 = hardwareMap.get(ColorSensor.class, "cs2");
 //    cs3 = hardwareMap.get(ColorSensor.class, "cs3");
 
-    servo = hardwareMap.get(Servo.class, "servo");
+    servo = hardwareMap.get(Servo.class, "fw2");
 
     // Set the LED in the beginning
 //    cs1.enableLed(bLedOn);

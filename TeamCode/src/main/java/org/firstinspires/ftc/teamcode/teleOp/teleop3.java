@@ -31,9 +31,8 @@ public class teleop3 extends LinearOpMode {
         if (isStopRequested()) return;
 
         // reset all motor positions
-        motor_move_to_angle(bot.arm, 0, .5,  false);
-        motor_move_to_angle(bot.elbow, -180, .5,  false);
-        motor_move_to_angle(bot.linearSlide, 0, .5,  false);
+//        motor_move_to_angle(bot.arm, 0, 1,  false);
+//        motor_move_to_angle(bot.elbow, 0, 1,  false);
 
         // open claws
         bot.claw.setPosition(.25);
@@ -52,7 +51,7 @@ public class teleop3 extends LinearOpMode {
                 manual(bot, gamepad2,
                         .3, .3,
                         .3, .3,
-                        .5, .5, .5);
+                        .8, .5, .5);
 
             }
 

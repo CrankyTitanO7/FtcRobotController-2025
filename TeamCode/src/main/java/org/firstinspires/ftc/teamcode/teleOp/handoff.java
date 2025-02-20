@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.teleOp;
 
+
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -27,7 +28,7 @@ public class handoff {
     static final double     red_lim                     = 0;                                        // color limits
     static final double     blue_lim                    = 0;                                        // color limits
     static final double     green_lim                   = 0;                                        // color limits
-    static final double     ground_dist                 = 5;                                        // ground distance IN CENTIMETERS from the front arm in scanning position
+    static final double     ground_dist                 = 6;                                        // ground distance IN CENTIMETERS from the front arm in scanning position
 
     static double           minPosition                 = 0.0;                                      // Minimum position
     static double           maxPosition                 = 1.0;                                      // Maximum position
@@ -61,16 +62,18 @@ public class handoff {
         ColorSensor cs1 = bot.cs1;
         ColorSensor cs2 = bot.cs2;
 
-        motor_move_to_angle(arm, 120, .5, false);                                // move the arm to the scanning angle
+        motor_move_to_angle(arm, 37, .7, false);// move the arm to the scanning angle
+//        frontWrist.setPosition(0);
+        claw2.setPosition(0);
 
         servo_scan(red_lim, blue_lim, green_lim,                                                    // rgb limits
                 ground_dist, true,                                                         // distance limits
                 frontWristRoll, cs1, cs2,                                                           // hardware
                 gamepad);                                                                           // game pad
 
-        claw2.setPosition(0);                                                                       // close claw
+        claw2.setPosition(.25);                                                                       // close claw
         frontWrist.setPosition(0);                                                                  // set front wrist in handoff position
-        motor_move_to_angle(arm, -120, .5, false);                              // set arm to handoff position
+        motor_move_to_angle(arm, -90, .5, false);                              // set arm to handoff position
         frontWrist.setPosition(0.5);                                                                // set front wrist PITCH to handoff position
         frontWristRoll.setPosition(0.5);                                                            // set front wrist ROLL to handoff position
     }
@@ -185,6 +188,10 @@ public class handoff {
         if (pos >= maxPosition || pos <= minPosition) {
             servo_move = !servo_move;
         }
+
+        while (servo.getPosition() != pos) {
+
+        }
     }
 
 
@@ -198,8 +205,11 @@ public static void servo_scan (                                                 
     if (distmode) {                                                                                 // if we are using distance sensor
         double dist1 = -1;
         double dist2 = -1;
+        double tolerance = .5;
 
-        while (dist1 <= dist && dist2 <= dist){
+        while (dist1 <= dist - tolerance &&
+                dist2 <= dist - tolerance)
+        {
             servo(servo);                                                                           // move one unit
 
             if (cs1 instanceof DistanceSensor) {
@@ -216,6 +226,8 @@ public static void servo_scan (                                                 
                 for (int i = 0; i < 3; i++) {gamepad.rumble(1000);}
                 break;                                                                              // emergency breakout using right bumper
             }
+
+
         }
 
     } else {                                                                                        // if we are using color sensor
@@ -270,11 +282,16 @@ public static void motor_move_to_angle (DcMotor motor, double angle, double spee
     motor.setTargetPosition((int) (angle * COUNTS_PER_RAD));
     motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     motor.setPower(speed);
-    while (motor.isBusy()) {
+    double startTime = System.currentTimeMillis();
+    while (motor.isBusy() && System.currentTimeMillis() < startTime + 3000) {
         // You can add telemetry here to monitor progress if needed
         // For example:
         // telemetry.addData("Motor Position", motor.getCurrentPosition());
         // telemetry.update();
+
+
+        // Break out after 3 seconds
+
     }
     motor.setPower(0);
 
